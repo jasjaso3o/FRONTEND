@@ -1,3 +1,5 @@
+import React from 'react'
+
 function Feed_principal () {
   return (
     <div className="soyElPadre flex flex-row-reverse w-[100vw] h-[100vh]" >
