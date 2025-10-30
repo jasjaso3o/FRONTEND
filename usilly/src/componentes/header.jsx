@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from "wouter";
 
 
-export default function Header() {
+export default function Header({popo}) {
   return (
-    <div className="hola0"></div>
+    <div className={`${popo ? "bg-amber-600" : "bg-pink-600"} h-100 holaaaaaaaaaaaaa w-full`}asdsd></div>
   )
 }
