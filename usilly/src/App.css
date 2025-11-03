@@ -1,3 +1,9 @@
+body {
+  background: url(https://teppyslayouts.neocities.org/img/background/face-12.png), #A3D6CD;
+  background-blend-mode: multiply, normal;
+}
+
+
 .hola0 {
   background-color: yellowgreen;
   height: 20px;
