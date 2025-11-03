@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from "wouter";
+import './header.css'
 
 
 export default function Header({popo}) {
