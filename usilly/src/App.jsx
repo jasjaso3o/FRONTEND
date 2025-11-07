@@ -1,17 +1,31 @@
 import React from 'react'
-import { useState } from 'react'
-import Feed_principal from './componentes/main.jsx'
+import './App.css'
 import {Router, Switch, Route, Redirect} from 'wouter';
-import Header from './componentes/header.jsx'
+import Header from './componentes/comun/header.jsx'
+import Logearse from './componentes/login-registro/Logearse.jsx'
+import Registrarse from './componentes/login-registro/Registrarse.jsx'
+import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
+  return(
     <div className='App'>
-        <Header/>
       <Router>
-        <Feed_principal />
+        <Header/>
+        <Switch>
+          <Route path="/Login">
+            <Logearse/>
+          </Route>
+          <Route path="/SignUp">
+            <Registrarse/>
+          </Route>
+          <Route path="/Home">
+            <Feed_principal/>
+          </Route>
+          <Route>
+            <Redirect to="/SignUp" />
+          </Route>
+        </Switch>
       </Router>
     </div>
   )  
