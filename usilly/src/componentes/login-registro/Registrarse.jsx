@@ -13,7 +13,7 @@ function Registrarse() {
       </form>
         <p class="text-sm text-gray-600">
           ¿Ya tienes una cuenta? 
-          <a href="/Login" className="text-blue-600 hover:text-blue-800 hover:underline ml-1 cursor-pointer">Iniciar Sesión</a>
+          <a href="/login" className="text-blue-600 hover:text-blue-800 hover:underline ml-1 cursor-pointer">Iniciar Sesión</a>
           
         </p>
     </div>

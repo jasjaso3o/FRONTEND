@@ -11,19 +11,19 @@ function App() {
   return(
     <div className='App'>
       <Router>
-        <Header/>
+      <Header/>
         <Switch>
-          <Route path="/Login">
-            <Logearse/>
+          <Route path="/login">
+            <Logearse />
           </Route>
-          <Route path="/SignUp">
-            <Registrarse/>
+          <Route path="/signUp">
+            <Registrarse />
           </Route>
-          <Route path="/Home">
-            <Feed_principal/>
+          <Route path="/feed">
+            <Feed_principal />
           </Route>
           <Route>
-            <Redirect to="/SignUp" />
+            <Redirect to="/signUp" />
           </Route>
         </Switch>
       </Router>
