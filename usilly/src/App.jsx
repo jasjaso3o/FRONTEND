@@ -5,6 +5,7 @@ import Header from './componentes/comun/header.jsx'
 import Logearse from './componentes/login-registro/Logearse.jsx'
 import Registrarse from './componentes/login-registro/Registrarse.jsx'
 import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
+import Publicacion from './componentes/publicacion/Publicacion.jsx'
 
 function App() {
 
@@ -22,11 +23,15 @@ function App() {
           <Route path="/feed">
             <Feed_principal />
           </Route>
+          <Route path="/publicacion">
+            <Publicacion />
+          </Route>
           <Route>
             <Redirect to="/signUp" />
           </Route>
         </Switch>
       </Router>
+      
     </div>
   )  
 }
