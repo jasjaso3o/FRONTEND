@@ -10,7 +10,7 @@ import Publicacion from './componentes/publicacion/Publicacion.jsx'
 function App() {
 
   return(
-    <div className='App'>
+    <div className='App bg-[#A3D6CD] bg-repeat soyElPadre w-full h-full' style={{backgroundImage: "url('https://teppyslayouts.neocities.org/img/background/face-12.png')",  backgroundRepeat: 'repeat'}}>
       <Router>
       <Header/>
         <Switch>
