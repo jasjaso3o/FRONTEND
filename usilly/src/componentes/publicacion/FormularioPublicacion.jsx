@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Componente de formulario para crear una nueva publicación
 function FormularioPublicacion({ fotoPerfilUsuario }) {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');

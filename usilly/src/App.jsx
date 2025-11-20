@@ -6,11 +6,13 @@ import Logearse from './componentes/login-registro/Logearse.jsx'
 import Registrarse from './componentes/login-registro/Registrarse.jsx'
 import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 import Publicacion from './componentes/publicacion/Publicacion.jsx'
+import Perfil from './componentes/perfil/Perfil.jsx'
+
 
 function App() {
 
   return(
-    <div className='App bg-[#A3D6CD] bg-repeat soyElPadre w-full h-full' style={{backgroundImage: "url('https://teppyslayouts.neocities.org/img/background/face-12.png')",  backgroundRepeat: 'repeat'}}>
+    <div>
       <Router>
       <Header/>
         <Switch>
@@ -25,6 +27,9 @@ function App() {
           </Route>
           <Route path="/publicacion">
             <Publicacion />
+          </Route>
+          <Route path="/perfil">
+            <Perfil/>
           </Route>
           <Route>
             <Redirect to="/signUp" />

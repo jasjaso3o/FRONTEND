@@ -1,3 +1,7 @@
 body {
-  
+  background-color: #A3D6CD;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('https://teppyslayouts.neocities.org/img/background/face-12.png');
+  background-repeat: repeat
 }

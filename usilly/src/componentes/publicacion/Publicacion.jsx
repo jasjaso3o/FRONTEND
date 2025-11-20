@@ -1,119 +1,122 @@
 import React from 'react';
-// Este archivo está usando sintaxis JSX que es lo que usarías en un componente de React.
-// Se han añadido las clases de Tailwind CSS para el estilo y la responsividad.
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Publicacion({
   fotoPerfil,
   nombreUsuario,
   apodo,
-  fecha,
+  fechaCreacion,
   titulo,
   descripcion,
-  imagenPublicacion,
-  likesCount,
-  dislikesCount,
-  comentariosCount
+  imagen,
+  meGusta,
+  noMeGusta,
+  comentarios,
 }) {
-  // Estas serían las funciones que manejarían la lógica de React (ej. manejar el click)
+
+  
   const handleLike = () => { console.log('Like clickeado'); };
   const handleDislike = () => { console.log('Dislike clickeado'); };
   const handleCommentView = () => { console.log('Ver comentarios clickeado'); };
 
   return (
-    // Contenedor principal: sin bordes como solicitaste, con sombra suave, fondo blanco y padding
     <div className="publicacion-card bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl">
-      {/* 1. Encabezado de la Publicación (Autor y Fecha) */}
-      <div className="publicacion-header flex justify-between items-start mb-3">
-        <div className="perfil-info flex items-center">
-          {/* Foto de Perfil: Circular y con tamaño fijo */}
-          <img
-            src={fotoPerfil || 'https://placehold.co/40x40/cccccc/333333?text=PF'}
-            alt="Foto de Perfil"
-            className="perfil-foto w-10 h-10 rounded-full mr-3 object-cover"
-          />
-          {/* Nombre y Apodo (Alias/Handle) */}
-          <div className="perfil-nombres flex flex-col sm:flex-row sm:items-baseline">
-            {/* Nombre de Usuario: Texto más oscuro y en negrita */}
-            <span className="nombre-usuario font-semibold text-gray-800 text-sm sm:text-base mr-2 whitespace-nowrap overflow-hidden text-ellipsis">
-              {nombreUsuario || "TheHermit798"}
-            </span>
-            {/* Apodo: Texto más claro y más pequeño, alineado a la derecha en móvil */}
-            <span className="apodo text-gray-500 text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-              @{apodo || "TheHermit798"}
-            </span>
+  <div className="publicacion-header flex justify-between items-center mb-3">
+    <div className="perfil-info flex items-center">
+      <img
+        src={fotoPerfil}
+        alt="Foto de Perfil"
+        className="perfil-foto w-10 h-10 rounded-full mr-3 object-cover"
+      />
+      <div className="perfil-detalles flex flex-col">
+        {/* Nombre de Usuario y Fecha en la misma línea */}
+        <div className="nombre-fecha-fila flex items-baseline">
+          <span className="nombre-usuario font-semibold text-gray-800 text-sm sm:text-base mr-2 whitespace-nowrap overflow-hidden text-ellipsis">
+            {nombreUsuario}
+          </span>
+          <div className="publicacion-fecha text-gray-400 text-xs ml-auto">
+            {new Date(fechaCreacion).toLocaleDateString('es-ES', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit' 
+            })}
           </div>
         </div>
-        {/* Fecha de Publicación: Un placeholder simple, pero lo mantendremos discreto */}
-        <div className="publicacion-fecha text-gray-400 text-xs ml-2">
-          {fecha || "1D"} {/* Usando un formato de tiempo corto para la estética de red social */}
-        </div>
-      </div>
-
-      {/* 2. Contenido de la Publicación (Título y Descripción) */}
-      <div className="publicacion-contenido mb-4">
-        {/* Título: Fuente grande y negrita, similar a la imagen */}
-        <h2 className="publicacion-titulo text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-          {titulo || "¿Cuál es tu opinión sobre los libros de curso estándar HSK?"}
-        </h2>
-        {/* Descripción: Color de texto estándar */}
-        <p className="publicacion-descripcion text-gray-700 leading-relaxed">
-          {descripcion || "Son fantásticos para ayudarte a superar los exámenes HSK, ya que cubren todo el vocabulario y jsdfjsodfjf ldsfjsdfjs dfojsdofjs d"}
-        </p>
-      </div>
-
-      {/* 3. Imagen de la Publicación (Opcional) */}
-
-        <div className="publicacion-imagen-container my-4">
-          <img
-            src="https://preview.redd.it/whats-your-opinion-on-hsk-standard-course-books-v0-9mfjbp5eyaof1.jpeg?width=1080&crop=smart&auto=webp&s=9a845fe7abda89a81b2b507bece8b7b48196059a"
-            alt=""
-            // Estilo para la imagen: ancho completo, altura limitada y responsiva, esquinas redondeadas
-            className="publicacion-imagen w-full max-h-96 object-cover rounded-lg shadow-md"
-          />
-        </div>
-      
-      {/* 4. Pie de Publicación (Interacciones: Likes, Dislikes, Comentarios) */}
-      <div className="publicacion-acciones flex items-center justify-start border-t border-gray-100 pt-3 mt-3 space-x-6">
-        {/* Nota: En la imagen solo hay un contador de "Me gusta" y "Comentarios".
-             Mantendremos la estructura de Likes, Dislikes y Comentarios para tu CRUD. */}
-
-        {/* Botón de Like */}
-        <button className="accion-btn like-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150 group" onClick={handleLike}>
-          {/* Icono de Like (Usando un icono SVG o emoji estilizado) */}
-          <svg className="w-5 h-5 mr-1 group-hover:fill-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-          </svg>
-          <span className="contador text-sm font-medium">
-            {likesCount || "28k"}
-          </span>
-        </button>
-
-        {/* Botón de Dislike (Se asume un conteo separado para ser más explícito) */}
-        <button className="accion-btn dislike-btn flex items-center text-gray-500 hover:text-blue-500 transition duration-150 group" onClick={handleDislike}>
-           {/* Icono de Dislike (Pulgar Abajo - Placeholder SVG) */}
-          <svg className="w-5 h-5 mr-1 group-hover:fill-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 21v-4a2 2 0 012-2h2a2 2 0 012 2v4M12 21V3M4 12h16"></path>
-          </svg>
-          <span className="contador text-sm font-medium">
-            {dislikesCount || "200"}
-          </span>
-        </button>
-
-
-        {/* Botón de Comentarios */}
-        <button className="accion-btn comentarios-btn flex items-center text-gray-500 hover:text-green-500 transition duration-150 group" onClick={handleCommentView}>
-          {/* Icono de Comentario (Burbuja de diálogo - Usaremos un SVG de Lucide-react/placeholder) */}
-          <svg className="w-5 h-5 mr-1 group-hover:fill-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.188C2.604 14.187 3 12 3 12s.803-2.14 2.894-3.14M21 12z"></path>
-          </svg>
-          <span className="contador text-sm font-medium">
-            {comentariosCount || "100"}
-          </span>
-        </button>
+        {/* Apodo debajo del nombre de usuario */}
+        <span className="apodo text-gray-500 text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          @{apodo}
+        </span>
       </div>
     </div>
+  </div>
+
+  {/* Contenido de la Publicación - Condicional para imagen */}
+  {imagen ? (
+    // Si hay imagen: Contenido (título y descripción) a la izquierda e Imagen a la derecha
+    <div className="publicacion-contenido-con-imagen flex gap-4">
+      <div className="publicacion-texto flex-1 min-w-0">
+        <h2 className="publicacion-titulo text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+          {titulo}
+        </h2>
+        <p className="publicacion-descripcion text-gray-700 leading-relaxed break-words">
+          {descripcion}
+        </p>
+      </div>
+      <div className="publicacion-imagen-container w-1/3 flex-shrink-0">
+        <img
+          src={imagen}
+          alt="Imagen de la Publicación"
+          className="publicacion-imagen w-[170px] h-[144px] object-cover rounded-lg shadow-md max-h-56"
+        />
+      </div>
+    </div>
+  ) : (
+    // Si NO hay imagen: Contenido (título y descripción) ocupa todo el ancho
+    <div className="publicacion-contenido mb-4">
+      <h2 className="publicacion-titulo text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+        {titulo}
+      </h2>
+      <p className="publicacion-descripcion text-gray-700 leading-relaxed">
+        {descripcion}
+      </p>
+    </div>
+  )}
+
+  <div className="publicacion-acciones flex items-center justify-start border-t border-gray-100 pt-3 mt-3 space-x-6">
+    <button className="accion-btn like-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150 group" onClick={handleLike}>
+      {/* Icono de Me Gusta (Corazón) */}
+      <svg className="w-5 h-5 mr-1 group-hover:fill-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+      </svg>
+      <span className="contador text-sm font-medium">
+        {meGusta}
+      </span>
+    </button>
+
+    <button className="accion-btn dislike-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150 group" onClick={handleDislike}>
+      {/* Icono de No Me Gusta (Corazón Roto) */}
+      <svg className="w-5 h-5 mr-1 group-hover:fill-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5.67L5.61 12l.71.71m11.37-11.37L12 11.3l-1.06 1.06" />
+      </svg>
+      <span className="contador text-sm font-medium">
+        {noMeGusta}
+      </span>
+    </button>
+
+
+    <button className="accion-btn comentarios-btn flex items-center text-gray-500 hover:text-green-500 transition duration-150 group" onClick={handleCommentView}>
+      <svg className="w-5 h-5 mr-1 group-hover:fill-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.188C2.604 14.187 3 12 3 12s.803-2.14 2.894-3.14M21 12z"></path>
+      </svg>
+      <span className="contador text-sm font-medium">
+        {comentarios}
+      </span>
+    </button>
+  </div>
+</div>
   );
 }
 
-// Exportamos el componente para que pueda ser usado en otros archivos de React
 export default Publicacion;
