@@ -19,9 +19,10 @@ function Publicacion({
   const handleLike = () => { console.log('Like clickeado'); };
   const handleDislike = () => { console.log('Dislike clickeado'); };
   const handleCommentView = () => { console.log('Ver comentarios clickeado'); };
+  const detallePublicacion = () => { console.log('Detalle de la publicación clickeado'); };
 
   return (
-    <div className="publicacion-card bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl">
+    <div className="publicacion-card bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl" onClick={detallePublicacion}>
   <div className="publicacion-header flex justify-between items-center mb-3">
     <div className="perfil-info flex items-center">
       <img

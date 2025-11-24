@@ -11,7 +11,7 @@ export default function Header() {
       </Link>
       <Link to="/singUp">Registrarse</Link>
       <Link to="/feed">Feed</Link>
-
+      <Link to="/perfil">Perfil</Link>
     </div>
   )
 }

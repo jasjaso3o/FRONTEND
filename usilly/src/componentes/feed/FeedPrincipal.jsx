@@ -5,7 +5,7 @@ import Comentario from '../comentarios/TarjetaComentario.jsx'
 import  metodosPublicaciones  from "../../api/publicacionesApi.jsx";
 
 
-function Feed_principal({}) {
+function Feed_principal() {
   const [publicaciones, setPublicaciones] = useState([])
   //const [idPublicacionSeleccionada, setIdPublicacionSeleccionada] = useState(null)
 

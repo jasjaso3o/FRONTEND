@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { usePublicaciones } from '../../hooks/usePublicaciones';
 
 function FormularioPublicacion({ fotoPerfilUsuario }) {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
+  const idUsuario = 2;
 
-  const publicar = (e) => {
+  const { crearPublicacion } = usePublicaciones();
+
+  
+  const publicar = async (e) => {
     e.preventDefault();
-
-    const publicacion = {
-      titulo, descripcion, imagen
+    const form = {
+  titulo,
+  descripcion,
+  imagen: null, // lo ponemos null para evitar FormData
+  idUsuario
+};
+    try {
+      const resp = await crearPublicacion(form);
+      console.log("Publicación creada:", resp.data);
+    } catch (error) {
+      console.error(error);
     }
+  }
+  
+  // const publicar = async (e) => {
+  //   e.preventDefault();
 
+  //   await crearPublicacion({
+  //     titulo,
+  //     descripcion,
+  //     imagen,
+  //     idUsuario: 1
+  //   });
+  // }
 
+  // const publicar = (e) => {
+  //   e.preventDefault();
 
-    console.log('Publicación enviada:', { titulo, descripcion });
-  };
+  //   const publicacion = {
+  //     titulo, descripcion, imagen
+  //   }
+  //   console.log('Publicación enviada:', { titulo, descripcion });
+  // };
 
   const handleAgregarImagen = () => {
     console.log('Botón de Agregar Imagen clickeado');

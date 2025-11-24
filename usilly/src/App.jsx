@@ -31,6 +31,9 @@ function App() {
           <Route path="/perfil">
             <Perfil/>
           </Route>
+          <Route path="/perfilDetalle">
+
+          </Route>
           <Route>
             <Redirect to="/signUp" />
           </Route>
