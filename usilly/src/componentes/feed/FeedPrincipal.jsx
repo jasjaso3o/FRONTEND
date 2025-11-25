@@ -2,42 +2,44 @@ import { useEffect, useState } from 'react'
 import Publicacion from '../publicacion/Publicacion.jsx'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion.jsx'
 import Comentario from '../comentarios/TarjetaComentario.jsx'
-import  metodosPublicaciones  from "../../api/publicacionesApi.jsx";
-
+import { usePublicaciones } from '../../hooks/usePublicaciones.jsx'
 
 function Feed_principal() {
   const [publicaciones, setPublicaciones] = useState([])
-  //const [idPublicacionSeleccionada, setIdPublicacionSeleccionada] = useState(null)
 
-useEffect(() => {
-  const cargarPublicaciones = async () => {
-    try {
-      const API = metodosPublicaciones();
-      const data = await API.obtenerPublicaciones();  // ✔️ nombre bien escrito
-      console.log(data);
-      
-      setPublicaciones(data);
-    } catch (error) {
-      console.error("Fallo la carga en el componente:", error);
-      setPublicaciones([]);
-    }
+  const { obtenerFeed } = usePublicaciones();
+
+  const cargarFeed = () => {
+    obtenerFeed()
+      .then((resp) => {
+        setPublicaciones(resp.data);
+        console.log(resp.data); 
+      })
+      .catch((err) => console.error(err));
   };
 
-  cargarPublicaciones();
-}, []);
+  useEffect(() => {
+    cargarFeed();
+  }, []);
+
+  // useEffect(() => {
+  //     obtenerFeed()
+  //       .then((resp) => {
+  //         setPublicaciones(resp.data);
+  //         console.log(resp.data)
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error cargando el feed:", error);
+  //       });
+  //   }, []);
 
 
   return (
     <div className="Feed">
-      {/* {publicaciones.map((pub) => (
-        <Publicacion onClick={() => seleccionar(publicacion.idPublicacion)}
-          key={pub.id}
-          fotoPerfil={pub.fotoPerfil}
-          nombreUsuario={pub.nombreUsuario}
-        />
-      ))} */}
       <h1>Estas en el feed principal!!</h1>
-      <FormularioPublicacion/>
+      <FormularioPublicacion
+        reiniciarFeed={cargarFeed}
+      />
       <ul>
         {publicaciones ? publicaciones.map((pub) => (
           <Publicacion

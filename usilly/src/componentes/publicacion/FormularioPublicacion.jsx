@@ -1,30 +1,37 @@
 import { useState } from 'react';
 import { usePublicaciones } from '../../hooks/usePublicaciones';
 
-function FormularioPublicacion({ fotoPerfilUsuario }) {
+function FormularioPublicacion({ fotoPerfil, reiniciarFeed }) {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
   const idUsuario = 2;
 
   const { crearPublicacion } = usePublicaciones();
+  // const { obtenerFeed } = usePublicaciones()
 
+  const publicar = (e) => {
+  e.preventDefault();
   
-  const publicar = async (e) => {
-    e.preventDefault();
-    const form = {
-  titulo,
-  descripcion,
-  imagen: null, // lo ponemos null para evitar FormData
-  idUsuario
+  const form = {
+    titulo,
+    descripcion,
+    imagen: null,
+    idUsuario
+  };
+  
+  crearPublicacion(form)
+  .then((resp) => {
+    console.log("Publicación creada:", form);
+    reiniciarFeed();
+    setDescripcion(""),
+    setTitulo("")
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 };
-    try {
-      const resp = await crearPublicacion(form);
-      console.log("Publicación creada:", resp.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
   
   // const publicar = async (e) => {
   //   e.preventDefault();
@@ -59,7 +66,7 @@ function FormularioPublicacion({ fotoPerfilUsuario }) {
       <form onSubmit={publicar}>
         <div className="flex items-start space-x-3 sm:space-x-4">
           <img
-            src={fotoPerfilUsuario || 'https://placehold.co/48x48/cccccc/333333?text=PF'}
+            src={fotoPerfil || 'https://placehold.co/48x48/cccccc/333333?text=PF'}
             alt="Foto de Perfil del Usuario"
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0 mt-1"
           />
@@ -115,7 +122,7 @@ function FormularioPublicacion({ fotoPerfilUsuario }) {
           <button
             type="submit"
             className="px-4 py-2 bg-red-600 text-white font-semibold rounded-full shadow-md hover:bg-red-700 transition duration-200 disabled:bg-red-300"
-            disabled={!titulo} // Deshabilita el botón si no hay título
+            disabled={!titulo}
           >
             Publicar
           </button>

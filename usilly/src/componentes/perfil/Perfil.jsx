@@ -4,32 +4,42 @@ import FormularioPublicacion from '../publicacion/FormularioPublicacion';
 import Publicacion from '../publicacion/Publicacion';
 import ApartadoPortadaPerfil from './ApartadoPortadaPerfil';
 import Filtros from '../comun/Filtros';
-import metodosPublicaciones from '../../api/publicacionesApi'
+import { usePublicaciones } from '../../hooks/usePublicaciones'
 
-function Perfil({user}) {
+function Perfil({user, publicaciones}) {
 
-  const [publicaciones, setPublicaciones] = useState([])
-  //const [idPublicacionSeleccionada, setIdPublicacionSeleccionada] = useState(null)
+  const [datosUsuario, setDatosUsuario] = useState(null)
+  const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
+  const [cargando, setCargando] = useState(true)
+  
+  const { obtenerDelUsuario } = usePublicaciones()
 
-useEffect(() => {
-  const cargarPublicaciones = async () => {
-    try {
-      const API = metodosPublicaciones();
-      const data = await API.obtenerPublicaciones();
-      console.log(data);
-      
-      setPublicaciones(data);
-    } catch (error) {
-      console.error("Fallo la carga en el componente:", error);
-      setPublicaciones([]);
-    }
-  };
+  const idUsuario = 2; // O puede venir como parámetro: user?.id
 
-  cargarPublicaciones();
-}, []);
+  // Función para cargar datos del usuario
+  const cargarDatosUsuario = () => {
+    setCargando(true)
+    
+    obtenerDelUsuario(idUsuario)  // ← Llama con el ID específico
+      .then((resp) => {
+        setPublicacionesUsuario(resp.data)  // ← Guarda publicaciones del usuario
+        console.log('Publicaciones del usuario:', resp.data)
+      })
+      .catch((err) => {
+        console.error('Error cargando datos del usuario:', err)
+      })
+      .finally(() => setCargando(false))
+  }
+
+  // Cargar datos al montar el componente
+  useEffect(() => {
+    cargarDatosUsuario()
+  }, [idUsuario])  // ← Se ejecuta si cambia el ID del usuario
+
+
 
 const Estadisticas = ({ stats }) => (
-  <div className="flex justify-around items-center py-4 bg-gray-50 rounded-lg mt-4 shadow-inner text-center">
+  <div className="flex justify-around items-center py-4 rounded-lg mt-4 shadow-inner text-center">
     {Object.entries(stats).map(([key, value]) => (
       <div key={key} className="flex flex-col items-center">
         <span className="text-base sm:text-lg font-bold text-gray-800">{value}</span>
@@ -51,15 +61,6 @@ const Estadisticas = ({ stats }) => (
 //   </div>
 // );
 
-
-
-
-// =================================================================
-// 3. Componente Principal: PerfilCompleto
-// =================================================================
-
-
-  // Datos simulados del usuario para el ejemplo
   const userData = {
     nombreUsuario: user || 'xiumai',
     apodo: '@xiumai',
@@ -77,13 +78,12 @@ const Estadisticas = ({ stats }) => (
   };
 
   return (
-    <div className="perfil-completo min-h-screen bg-gray-50 flex flex-col items-center">
+    <div className="perfil-completo min-h-screen flex flex-col items-center">
       
       {/* A. Header (Ancho completo, sticky) */}
       {/*<HeaderPerfil nombreUsuario={userData.nombreUsuario} />*/}
-      <div className="w-full bg-gray-700 text-white p-3 flex items-center justify-start sticky top-0 z-10 shadow-md">
+      <div className="w-full bg-[#6A4A49] text-white p-3 flex items-center justify-start top-0 z-10 shadow-md">
         <button onClick={() => window.history.back()} className="mr-3 p-1 rounded-full hover:bg-gray-600 transition">
-          {/* Icono de Regreso */}
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
@@ -135,7 +135,7 @@ const Estadisticas = ({ stats }) => (
       : <p>No hay publicaciones para mostrar.</p>}
       </ul>
         </div>
-      <div className="w-full h-10 bg-amber-800 mt-10 shadow-inner">
+      <div className="w-full h-10 bg-[#6A4A49] mt-10 shadow-inner">
       </div>
     </div>
   );
