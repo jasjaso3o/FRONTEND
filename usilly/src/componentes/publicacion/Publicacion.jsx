@@ -43,7 +43,6 @@ function Publicacion({
                 })}
               </div>
             </div>
-            {/* Apodo debajo del nombre de usuario */}
             <span className="apodo text-gray-500 text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
               @{apodo}
             </span>
@@ -51,9 +50,7 @@ function Publicacion({
         </div>
       </div>
 
-      {/* Contenido de la Publicación - Condicional para imagen */}
       {imagen ? (
-        // Si hay imagen: Contenido (título y descripción) a la izquierda e Imagen a la derecha
         <div className="publicacion-contenido-con-imagen flex gap-4">
           <div className="publicacion-texto flex-1 min-w-0">
             <h2 className="publicacion-titulo text-xl sm:text-2xl font-bold text-gray-900 mb-2">

@@ -8,9 +8,13 @@ export function usePublicaciones() {
     return get('/publicaciones');
   };
 
-  const obtenerDelUsuario = (idUsuario) => {
-    return get(`/publicaciones/${idUsuario}`);
+  const obtenerPublicacionesUsuario = (idUsuario) => {
+    return get(`/publicaciones/usuario/${idUsuario}`);
   };
+
+  const obtenerPublicacion = (idPublicacion) => {
+    return get(`/publicaciones/${idPublicacion}`);
+  }
 
   const crearPublicacion = (formData) => {
     return post("/publicaciones", formData, {
@@ -28,7 +32,7 @@ export function usePublicaciones() {
 
   return {
     obtenerFeed,
-    obtenerDelUsuario,
+    obtenerPublicacionesUsuario,
     crearPublicacion,
     editarPublicacion,
     eliminarPublicacion
