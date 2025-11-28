@@ -6,6 +6,7 @@ import Logearse from './componentes/login-registro/Logearse.jsx'
 import Registrarse from './componentes/login-registro/Registrarse.jsx'
 import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 import Publicacion from './componentes/publicacion/Publicacion.jsx'
+import PublicacionSeleccionada from './componentes/publicacion/PublicacionSeleccionada.jsx'
 import Perfil from './componentes/perfil/Perfil.jsx'
 
 
@@ -20,14 +21,14 @@ function App() {
           <Route path="/login">
             <Logearse />
           </Route>
-          <Route path="/signUp">
+          <Route path="/signup">
             <Registrarse />
           </Route>
           <Route path="/feed">
             <Feed_principal />
           </Route>
-          <Route path="/publicacion">
-            <Publicacion />
+          <Route path="/publicacion/:id">
+            <PublicacionSeleccionada />
           </Route>
           <Route path="/perfil">
             <Perfil/>
@@ -35,9 +36,9 @@ function App() {
           <Route path="/perfilDetalle">
 
           </Route>
-          <Route>
+          {/* <Route>
             <Redirect to="/signUp" />
-          </Route>
+          </Route> */}
         </Switch>
       </Router>
       

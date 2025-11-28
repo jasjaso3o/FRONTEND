@@ -44,6 +44,7 @@ function Feed_principal() {
         {publicaciones ? publicaciones.map((pub) => (
           <Publicacion
             key={pub.idPublicacion}
+            idPublicacion={pub.idPublicacion}
             fotoPerfil={pub.fotoPerfil}
             apodo={pub.apodo}
             nombreUsuario={pub.nombreUsuario}

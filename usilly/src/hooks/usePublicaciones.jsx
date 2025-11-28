@@ -33,6 +33,7 @@ export function usePublicaciones() {
   return {
     obtenerFeed,
     obtenerPublicacionesUsuario,
+    obtenerPublicacion,
     crearPublicacion,
     editarPublicacion,
     eliminarPublicacion

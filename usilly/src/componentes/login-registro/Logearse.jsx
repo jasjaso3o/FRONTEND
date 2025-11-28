@@ -17,9 +17,9 @@ function Logearse() {
         <input type="password" name="password" className="px-4 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"/>
         <button type="submit">Iniciar Sesión</button>
       </form>
-      <p class="text-sm text-gray-600">
+      <p className="text-sm text-gray-600">
           ¿No tienes una cuenta? 
-          <a href="/SignUp" className="text-blue-600 hover:text-blue-800 hover:underline ml-1 cursor-pointer">Registrarse</a>
+          <a href="/signup" className="text-blue-600 hover:text-blue-800 hover:underline ml-1 cursor-pointer">Registrarse</a>
           
         </p>
     </div>

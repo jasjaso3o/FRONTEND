@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useLocation } from 'wouter';
 
 function Publicacion({
+  idPublicacion,
   fotoPerfil,
   nombreUsuario,
   apodo,
@@ -19,7 +18,15 @@ function Publicacion({
   const handleLike = () => { console.log('Like clickeado'); };
   const handleDislike = () => { console.log('Dislike clickeado'); };
   const handleCommentView = () => { console.log('Ver comentarios clickeado'); };
-  const detallePublicacion = () => { console.log('Detalle de la publicación clickeado'); };
+  const [location, setLocation] = useLocation();
+  const detallePublicacion = () => {
+    console.log('navegando a publicacion id:', idPublicacion, 'ruta actual:', location);
+    if (!idPublicacion) {
+      console.error('Publicacion: idPublicacion está undefined, no se puede navegar');
+      return;
+    }
+    setLocation(`/publicacion/${idPublicacion}`);
+  };
 
   return (
     <div className="publicacion-card bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl" onClick={detallePublicacion}>

@@ -9,7 +9,7 @@ export default function Header() {
       <Link to="/login">
         <span className=''>Iniciar Sesión</span>
       </Link>
-      <Link to="/singUp">Registrarse</Link>
+      <Link to="/signup">Registrarse</Link>
       <Link to="/feed">Feed</Link>
       <Link to="/perfil">Perfil</Link>
     </div>

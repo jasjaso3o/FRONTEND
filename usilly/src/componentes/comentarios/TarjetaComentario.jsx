@@ -5,30 +5,25 @@ function Comentario({
   fotoPerfil,
   nombreUsuario,
   apodo,
-  haceCuanto,
+  fechaCreacion,
   contenido,
-  likesCount,
-  dislikesCount
+  meGusta,
+  noMeGusta
 }) {
   const handleLike = () => { console.log('Like en comentario clickeado'); };
   const handleDislike = () => { console.log('Dislike clickeado'); };
 
 
   return (
-    // Contenedor principal del comentario. 
-    // Usamos padding horizontal y un borde inferior sutil para separarlos en la lista.
     <div className="comentario-item bg-white p-4 sm:p-6 rounded-xl shadow-lg py-3 px-4 sm:px-0 border-b border-gray-100 last:border-b-0 w-full max-w-xl mx-auto">
       <div className="flex items-start space-x-3 ">
-        {/* Foto de Perfil */}
         <img
           src={fotoPerfil || 'https://placehold.co/40x40/f7d7e3/9e3a6a?text=P'}
           alt="Foto de Perfil del Comentarista"
           className="w-8 h-8 rounded-full object-cover flex-shrink-0 mt-1"
         />
 
-        {/* Contenido del Comentario */}
         <div className="flex-grow">
-          {/* Encabezado: Nombre, Apodo y Fecha */}
           <div className="flex items-baseline space-x-2 text-sm mb-1">
             <span className="font-semibold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">
               {nombreUsuario || "TheHermit798"}
@@ -37,26 +32,23 @@ function Comentario({
               @{apodo || "TheHermit798"}
             </span>
             <span className="text-gray-400 text-xs ml-auto">
-              hace {haceCuanto || "7 días"}
+              hace {fechaCreacion || "7 días"}
             </span>
           </div>
 
-          {/* Cuerpo del Contenido */}
           <p className="text-gray-700 text-sm leading-relaxed mb-2">
             {contenido || "Ok fine i was kidding i know but i would like to say thank you for making these things that people will love. Im proud of who made this useful website im glad i know this website.from your biggest fan (つ•w•)つ. hellohello!!"}
           </p>
 
-          {/* Acciones de Comentario (Likes y Respuestas) */}
           <div className="comentario-acciones flex items-center space-x-4">
             
-            {/* Botón de Like */}
             <button
               className="accion-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150"
               onClick={handleLike}
             >
-              <span className="icon">🤍</span> {/* Usamos un corazón por estética */}
+              <span className="icon">🤍</span>
               <span className="contador text-xs font-medium ml-1">
-                {likesCount || "28k"}
+                {meGusta || "28k"}
               </span>
             </button>
 
@@ -65,7 +57,7 @@ function Comentario({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 21v-4a2 2 0 012-2h2a2 2 0 012 2v4M12 21V3M4 12h16"></path>
           </svg>
           <span className="contador text-sm font-medium">
-            {dislikesCount || "200"}
+            {noMeGusta || "200"}
           </span>
         </button>
 
@@ -76,5 +68,4 @@ function Comentario({
   );
 }
 
-// Exportamos el componente
 export default Comentario;
