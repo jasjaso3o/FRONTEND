@@ -1,4 +1,3 @@
-// usePublicaciones.js
 import { useAxios } from "./useAxios";
 
 export function usePublicaciones() {

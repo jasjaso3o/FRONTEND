@@ -18,14 +18,12 @@ function Perfil() {
 
   const idUsuario = 2;
 
-  // const {biografiaSecundaria} = datosUsuario;
-
   const cargarPublicacionesUsuario = () => {
     setCargando(true)
     
-    obtenerPublicacionesUsuario(idUsuario)  // ← Llama con el ID específico
+    obtenerPublicacionesUsuario(idUsuario)
       .then((resp) => {
-        setPublicacionesUsuario(resp.data)  // ← Guarda publicaciones del usuario
+        setPublicacionesUsuario(resp.data)
         console.log('Publicaciones del usuario:', resp.data)
       })
       .catch((err) => {
@@ -34,18 +32,16 @@ function Perfil() {
       .finally(() => setCargando(false))
   }
 
-  // Cargar datos al montar el componente
   useEffect(() => {
     cargarPublicacionesUsuario()
-  }, [idUsuario])  // ← Se ejecuta si cambia el ID del usuario
+  }, [idUsuario])
 
   const cargarDatosUsuario = () => {
     setCargando(true)
-    obtenerDatosUsuario(idUsuario)  // ← Llama con el ID específico
+    obtenerDatosUsuario(idUsuario)
       .then((resp) => {
-        // resp.data es un array, extraer el primer elemento
         const usuario = Array.isArray(resp.data) ? resp.data[0] : resp.data
-        setDatosUsuario(usuario)  // ← Guarda datos del usuario
+        setDatosUsuario(usuario)
         console.log('Datos del usuario:', usuario)
       })
       .catch((err) => {
@@ -54,39 +50,16 @@ function Perfil() {
       .finally(() => setCargando(false))
   }
 
-  // Cargar datos al montar el componente
   useEffect(() => {
     cargarDatosUsuario()
-  }, [idUsuario])  // ← Se ejecuta si cambia el ID del usuario
-
-
-// Componente: Biografía Secundaria (Sobre mí)
-// const BiografiaExtendida = ({ biografia }) => (
-// );
+  }, [idUsuario])
 
 // Componente: Filtro de Posts
 // const FiltroPosts = () => (
 //   <div className="flex justify-between items-center py-4 border-b border-gray-200 mb-4 mt-6">
-    
-    
 //   </div>
 // );
 
-  // const userData = {
-  //   nombreUsuario: 'xiumai',
-  //   apodo: '@xiumai',
-  //   biografiaPrincipal: 'main / 20 • humor/dades',
-  //   stats: {
-  //     'Publicaciones': '12',
-  //     'Me gusta': '54K',
-  //     'Seguidores': '845',
-  //     'Seguidos': '88',
-  //   },
-  //   // URLs de imágenes de prueba
-  //   portadaUrl: 'https://foollovers.com/mat/baf/food/fo88-012-e.gif',
-  //   perfilUrl: 'https://placehold.co/100x100/f8a5c2/3b0c1b?text=P',
-  //   biografiaSecundaria: null, // Lo carga el componente BiografiaExtendida
-  // };
   const { biografiaSecundaria} = datosUsuario || {};
   return (
     <div className="perfil-completo min-h-screen flex flex-col items-center">

@@ -1,6 +1,3 @@
-import React from 'react';
-
-// Componente individual para mostrar un comentario
 function Comentario({
   fotoPerfil,
   nombreUsuario,

@@ -132,5 +132,4 @@ function FormularioPublicacion({ fotoPerfil, reiniciarFeed }) {
   );
 }
 
-// Exportamos el componente
 export default FormularioPublicacion;
