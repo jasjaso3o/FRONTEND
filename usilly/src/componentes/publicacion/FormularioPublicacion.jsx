@@ -11,26 +11,26 @@ function FormularioPublicacion({ fotoPerfil, reiniciarFeed }) {
   // const { obtenerFeed } = usePublicaciones()
 
   const publicar = (e) => {
-  e.preventDefault();
-  
-  const form = {
-    titulo,
-    descripcion,
-    imagen: null,
-    idUsuario
+    e.preventDefault();
+    
+    const form = {
+      titulo,
+      descripcion,
+      imagen: null,
+      idUsuario
+    };
+    
+    crearPublicacion(form)
+    .then((resp) => {
+      console.log("Publicación creada:", form);
+      reiniciarFeed();
+      setDescripcion(""),
+      setTitulo("")
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   };
-  
-  crearPublicacion(form)
-  .then((resp) => {
-    console.log("Publicación creada:", form);
-    reiniciarFeed();
-    setDescripcion(""),
-    setTitulo("")
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-};
 
   
   // const publicar = async (e) => {

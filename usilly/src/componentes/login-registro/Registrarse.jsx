@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useAxios } from '../../hooks/useAxios'
+import { useUsuarios } from '../../hooks/useUsuarios'
 import { useLocation } from 'wouter';
 
 function Registrarse() {
 
-  const { post } = useAxios();
+  const { registrarUsuario } = useUsuarios();
 
   const [, setLocation] = useLocation();
   const [errorMessage, setErrorMessage] = useState('');
@@ -18,34 +18,61 @@ function Registrarse() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setFieldErrors({});
 
-    const datosRegistro = { nombreUsuario, apodo, email, password };
+    const datosRegistro = { 
+      nombreUsuario, apodo, email, password 
+    };
 
-    
-    
-    post('/signup', datosRegistro)
-      .then((resp) => {
-        console.log('Registro exitoso:', resp.data);
-        setNombreUsuario('');
-        setApodo('');
-        setEmail('');
-        setPassword('');
-        setLocation('/feed');
-      })
-      .catch((err) => {
-        const data = await response.json();
-        console.error('Error en el registro:', err);
+    registrarUsuario(datosRegistro)
+    .then((resp) => {
+      console.log('Registro exitoso:', resp.data);
+      localStorage.setItem('token', resp.data.token);
 
-        // Intentar mapear errores del backend
-        if (data.status === 'error') {
-  console.log(data.mensaje); // "Nombre de usuario ya en uso, intenta con otro"
-  // mostrar en UI
-} else {
-  console.log('Registro exitoso', data.token);
-}
-      });
+
+      setNombreUsuario('');
+      setApodo('');
+      setEmail('');
+      setPassword('');
+      setLocation('/feed');
+    })
+    .catch((error) => {
+    console.error('Error en el registro:', error);
+
+  const status = error?.response?.status;
+  const mensaje = error?.response?.data?.mensaje;
+
+  if (status === 409) {
+    setErrorMessage(mensaje); 
+  } 
+  else if (status === 422) {
+    setErrorMessage(mensaje);
+  } 
+  else {
+    setErrorMessage("Ocurrió un error inesperado, intenta más tarde.");
+  }
+    })
+
+//     post('/signup', datosRegistro)
+//       .then((resp) => {
+//         console.log('Registro exitoso:', resp.data);
+//         setNombreUsuario('');
+//         setApodo('');
+//         setEmail('');
+//         setPassword('');
+//         setLocation('/feed');
+//       })
+//       .catch((err) => {
+//         //const data = await response.json();
+//         console.error('Error en el registro:', err);
+
+//         // Intentar mapear errores del backend
+//         if (data.status === 'error') {
+//   console.log(data.mensaje); // "Nombre de usuario ya en uso, intenta con otro"
+//   // mostrar en UI
+// } else {
+//   console.log('Registro exitoso', data.token);
+// }
+//       });
   }
 
   return(

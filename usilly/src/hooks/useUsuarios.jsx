@@ -11,8 +11,8 @@ export function useUsuarios() {
     return get(`/usuarios/${idUsuario}`);
   };
 
-  const crearPublicacion = (formData) => {
-    return post("/publicaciones", formData, {
+  const registrarUsuario = (datosRegistro) => {
+    return post("/signup", datosRegistro, {
 
     });
   };
@@ -28,7 +28,7 @@ export function useUsuarios() {
   return {
     obtenerUsuarios,
     obtenerDatosUsuario,
-    crearPublicacion,
+    registrarUsuario,
     editarPublicacion,
     eliminarPublicacion
   };
