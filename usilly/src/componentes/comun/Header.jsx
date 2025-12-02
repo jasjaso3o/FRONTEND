@@ -12,6 +12,7 @@ export default function Header() {
       <Link to="/signup">Registrarse</Link>
       <Link to="/feed">Feed</Link>
       <Link to="/perfil">Perfil</Link>
+      <Link to="/administrador">Administrador</Link>
     </div>
   )
 }

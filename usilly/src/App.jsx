@@ -15,7 +15,6 @@ function App() {
 
   const userRol = () => {
     const token = localStorage.getItem('token');
-
     
     if (!token) return false;
     
@@ -37,15 +36,25 @@ function App() {
             <Registrarse />
           </Route>
           <Route path="/feed">
-            <Feed_principal />
+            {userRol() === 'administrador' || userRol() === 'usuario' ?
+              <Feed_principal />
+              :
+              <div>Inicie sesión primero!</div>
+            }
           </Route>
           <Route path="/publicacion/:id">
-            <PublicacionSeleccionada />
+            {userRol() === 'administrador' || userRol() === 'usuario' ?
+              <PublicacionSeleccionada />
+              :
+              <div>Inicie sesión primero!</div>
+            }
           </Route>
           <Route path="/perfil">
-            <Perfil/>
-          </Route>
-          <Route path="/perfilDetalle">
+            {userRol() === 'administrador' || userRol() === 'usuario' ?
+              <Perfil/>
+              :
+              <div>Inicie sesión primero!</div>
+            }
           </Route>
           <Route path="/administrador">
           {userRol() === 'administrador'  ?
@@ -55,7 +64,7 @@ function App() {
           }
           </Route>
           <Route>
-            <Redirect to="/signUp" />
+            <Redirect to="/signup" />
           </Route>
         </Switch>
       </Router>
