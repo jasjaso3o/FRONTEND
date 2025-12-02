@@ -3,16 +3,33 @@ import { Link } from "wouter";
 import './header.css'
 
 
-export default function Header() {
+export default function Header({logout, userRol}) {
+
+  const token = localStorage.getItem('token');
+  //const estaLogeado = !!localStorage.getItem("token");
+
+
+
   return (
-    <div className="header bg-[#4E2928] h-[60px] flex items-center">
-      <Link to="/login">
-        <span className=''>Iniciar Sesión</span>
-      </Link>
-      <Link to="/signup">Registrarse</Link>
-      <Link to="/feed">Feed</Link>
-      <Link to="/perfil">Perfil</Link>
-      <Link to="/administrador">Administrador</Link>
+    <div className="header bg-[#4E2928] h-[60px] flex items-center text-white">
+      {!token ? (
+        <>
+          <Link to="/login">Iniciar Sesión</Link>
+          <Link to="/signup">Registrarse</Link>
+        </>
+      ) : (
+        <>
+          <Link to="/feed">Feed</Link>
+          <Link to="/perfil">Perfil</Link>
+          {userRol() === 'administrador' ?
+            <Link to="/administrador">Panel de Control</Link>
+            : null
+          }
+          <button onClick={logout}>Cerrar Sesión</button>
+        </>
+      )
+      
+      }
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import {Router, Switch, Route, Redirect} from 'wouter';
+import { useLocation } from 'wouter';
 import Header from './componentes/comun/header.jsx'
 import Logearse from './componentes/login-registro/Logearse.jsx'
 import Registrarse from './componentes/login-registro/Registrarse.jsx'
@@ -13,6 +14,9 @@ import PanelControl from './componentes/administrador/PanelControl.jsx'
 
 function App() {
 
+  const [, setLocation] = useLocation();
+  
+
   const userRol = () => {
     const token = localStorage.getItem('token');
     
@@ -23,11 +27,20 @@ function App() {
     return payload?.data?.rol;
   }
   
+  //funcion aqui para eliminar token(cerrar sesion) y exportarlo a header
+  const logout = () => {
+    localStorage.removeItem('token');
+    setLocation('/login');
+  };
+
 
   return(
     <div>
       <Router>
-      <Header/>
+      <Header
+        logout={logout}
+        userRol={userRol}
+      />
         <Switch>
           <Route path="/login">
             <Logearse />

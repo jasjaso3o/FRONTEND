@@ -40,9 +40,8 @@ function Perfil() {
     setCargando(true)
     obtenerDatosUsuario(idUsuario)
       .then((resp) => {
-        const usuario = Array.isArray(resp.data) ? resp.data[0] : resp.data
-        setDatosUsuario(usuario)
-        console.log('Datos del usuario:', usuario)
+        setDatosUsuario(resp.data)
+        console.log('Datos del usuario:', resp.data)
       })
       .catch((err) => {
         console.error('Error cargando datos del usuario:', err)
