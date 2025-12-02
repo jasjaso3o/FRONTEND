@@ -1,12 +1,13 @@
 //import './Logearse.css'
 import { useState } from 'react';
-import { useAxios } from '../../hooks/useAxios'
+import { useUsuarios } from '../../hooks/useUsuarios';  
 import { useLocation } from 'wouter';
 
+//separar logica del maquetado
 
 function Logearse() {
 
-  const { post } = useAxios();
+  const { logearUsuario } = useUsuarios();
 
   const [, setLocation] = useLocation();
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,18 +24,19 @@ function Logearse() {
     }
     console.log(datosInicioSesion);
     
-    post('/login', datosInicioSesion)
+    logearUsuario(datosInicioSesion)
       .then((resp) => {
         console.log('Inicio de sesión exitoso:', resp.data);
+        localStorage.setItem('token', resp.data.token);
+
+        setNombreUsuario('');
+        setPassword('');
         setLocation('/feed');
       })
       .catch((err) => {
         console.error('Error en el inicio de sesión:', err);
         setErrorMessage('Usuario y/o contraseña incorrectos');
       });
-      setNombreUsuario('');
-      setPassword('');
-    
   }
 
   return (

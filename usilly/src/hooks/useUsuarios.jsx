@@ -7,6 +7,10 @@ export function useUsuarios() {
     return get('/usuarios');
   };
 
+  const obtenerUsuariosAdmin = () => {
+    return get('/usuarios/administrador')
+  }
+
   const obtenerDatosUsuario = (idUsuario) => {
     return get(`/usuarios/${idUsuario}`);
   };
@@ -16,6 +20,12 @@ export function useUsuarios() {
 
     });
   };
+
+  const logearUsuario = (datosInicioSesion) => {
+    return post("/login", datosInicioSesion, {
+
+    })
+  }
 
   const editarPublicacion = (id, data) => {
     return put(`/publicaciones/${id}`, data);
@@ -27,8 +37,10 @@ export function useUsuarios() {
 
   return {
     obtenerUsuarios,
+    obtenerUsuariosAdmin,
     obtenerDatosUsuario,
     registrarUsuario,
+    logearUsuario,
     editarPublicacion,
     eliminarPublicacion
   };

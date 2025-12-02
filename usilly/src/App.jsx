@@ -8,9 +8,21 @@ import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 import Publicacion from './componentes/publicacion/Publicacion.jsx'
 import PublicacionSeleccionada from './componentes/publicacion/PublicacionSeleccionada.jsx'
 import Perfil from './componentes/perfil/Perfil.jsx'
+import PanelControl from './componentes/administrador/PanelControl.jsx'
 
 
 function App() {
+
+  const userRol = () => {
+    const token = localStorage.getItem('token');
+
+    
+    if (!token) return false;
+    
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log(payload);
+    return payload?.data?.rol;
+  }
   
 
   return(
@@ -34,7 +46,13 @@ function App() {
             <Perfil/>
           </Route>
           <Route path="/perfilDetalle">
-
+          </Route>
+          <Route path="/administrador">
+          {userRol() === 'administrador'  ?
+            <PanelControl/>
+            :
+            <div>Sin permiso</div>
+          }
           </Route>
           <Route>
             <Redirect to="/signUp" />

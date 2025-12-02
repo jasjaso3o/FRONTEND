@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useUsuarios } from '../../hooks/useUsuarios'
 import { useLocation } from 'wouter';
 
+//separar logica del maquetado
+
 function Registrarse() {
 
   const { registrarUsuario } = useUsuarios();
