@@ -19,7 +19,7 @@ export default function Header({logout, userRol}) {
         </>
       ) : (
         <>
-          <Link to="/feed">Feed</Link>
+          <Link to="/feed">Principal</Link>
           <Link to="/perfil">Perfil</Link>
           {userRol() === 'administrador' ?
             <Link to="/administrador">Panel de Control</Link>

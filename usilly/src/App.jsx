@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import { useState, useEffect } from 'react';
 import {Router, Switch, Route, Redirect} from 'wouter';
 import { useLocation } from 'wouter';
 import Header from './componentes/comun/header.jsx'
@@ -15,19 +16,29 @@ import PanelControl from './componentes/administrador/PanelControl.jsx'
 function App() {
 
   const [, setLocation] = useLocation();
+  const [authData, setAuthData] = useState(null);
   
+  const [perfilSeleccionado, setPerfilSeleccionado] = useState(null);
 
-  const userRol = () => {
+
+  const usuario = () => {
     const token = localStorage.getItem('token');
     
     if (!token) return false;
     
     const payload = JSON.parse(atob(token.split('.')[1]));
     console.log(payload);
-    return payload?.data?.rol;
+    return payload?.data;
   }
+
+
+  useEffect(() => {
+    const data = usuario();
+    setAuthData(data); // guarda idUsuario, rol, nombreUsuario, etc.
+  }, []);
+
+  console.log("datos del usuario q inicio sesion: ", authData)
   
-  //funcion aqui para eliminar token(cerrar sesion) y exportarlo a header
   const logout = () => {
     localStorage.removeItem('token');
     setLocation('/login');
@@ -39,7 +50,7 @@ function App() {
       <Router>
       <Header
         logout={logout}
-        userRol={userRol}
+        userRol={usuario}
       />
         <Switch>
           <Route path="/login">
@@ -49,28 +60,45 @@ function App() {
             <Registrarse />
           </Route>
           <Route path="/feed">
-            {userRol() === 'administrador' || userRol() === 'usuario' ?
+            {authData && (authData.rol === "usuario" || authData.rol === "administrador") 
+ 
+            ?
               <Feed_principal />
               :
               <div>Inicie sesión primero!</div>
             }
           </Route>
           <Route path="/publicacion/:id">
-            {userRol() === 'administrador' || userRol() === 'usuario' ?
+            {authData && (authData.rol === "usuario" || authData.rol === "administrador")
+            ?
               <PublicacionSeleccionada />
               :
               <div>Inicie sesión primero!</div>
             }
           </Route>
           <Route path="/perfil">
-            {userRol() === 'administrador' || userRol() === 'usuario' ?
-              <Perfil/>
+            {authData && (authData.rol === "usuario" || authData.rol === "administrador") 
+            ?
+              <Perfil
+                //?? retorna el operando d lado derecho si el izq es null, caso contrario devuelve el lado izq(idUsuario que inicio sesion)
+                idUsuario={perfilSeleccionado ?? authData.id}
+              />
               :
               <div>Inicie sesión primero!</div>
             }
           </Route>
+          {/* <Route path="/perfil/:idUsuario">
+            {authData && (authData.rol === "usuario" || authData.rol === "administrador") 
+            ?
+              <Perfil/>
+              :
+              <div>Inicie sesión primero!</div>
+            }
+          </Route> */}
+          
           <Route path="/administrador">
-          {userRol() === 'administrador'  ?
+          {authData && (authData.rol === "administrador")  
+          ?
             <PanelControl/>
             :
             <div>Sin permiso</div>

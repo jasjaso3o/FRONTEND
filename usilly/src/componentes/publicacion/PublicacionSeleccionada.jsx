@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Publicacion from "./Publicacion";
 import Comentario from '../comentarios/TarjetaComentario';
 import { useRoute } from 'wouter';
@@ -15,6 +15,20 @@ function PublicacionSeleccionada() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
+  const [comentarios, setComentarios] = useState([]);
+
+  const { obtenerComentariosPub } = useComentarios();
+
+  const cargarComentarios = () => {
+    obtenerComentariosPub(idPublicacion)
+    .then((resp) => {
+        setComentarios(resp.data);
+        console.log(resp.data); 
+      })
+      .catch((err) => console.error(err));
+  }
+
+
   useEffect(() => {
     if (!id) return;
     setCargando(true);
@@ -29,6 +43,7 @@ function PublicacionSeleccionada() {
       })
       .finally(() => setCargando(false));
   }, [id]);
+
 
   if (cargando) return <div className="max-w-3xl mx-auto p-4">Cargando publicación...</div>;
   if (error) return <div className="max-w-3xl mx-auto p-4">Error cargando publicación.</div>;
@@ -50,8 +65,24 @@ function PublicacionSeleccionada() {
         noMeGusta={publicacion.noMeGusta}
         comentarios={publicacion.comentarios}
       />
-      {/* Aquí puedes renderizar comentarios / formulario si los tienes */}
       <FormularioComentario/>
+
+      <ul>
+        {comentarios ? comentarios.map((com) => (
+          <Comentario
+            key={comentarios.idComentario}
+            idComentario={comentarios.idComentario}
+            contenido={comentarios.contenido}
+            nombreUsuario={comentarios.nombreUsuario}
+            fotoPerfil={comentarios.fotoPerfil}
+            fechaCreacion={comentarios.fechaCreacion}
+            meGusta={comentarios.meGusta}
+            noMeGusta={comentarios.noMeGusta}
+          />
+        ))
+        : <p>Sin comentarios aún, se el primero!</p>
+      }
+      </ul>
     </div>
   );
 }

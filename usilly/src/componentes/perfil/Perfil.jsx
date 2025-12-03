@@ -7,7 +7,10 @@ import Filtros from '../comun/Filtros';
 import { usePublicaciones } from '../../hooks/usePublicaciones'
 import { useUsuarios } from '../../hooks/useUsuarios';
 
-function Perfil() {
+
+function Perfil({idUsuario}) {
+
+  console.log('Perfil recibió idUsuario:', idUsuario);
 
   const [datosUsuario, setDatosUsuario] = useState()
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
@@ -16,7 +19,9 @@ function Perfil() {
   const { obtenerPublicacionesUsuario } = usePublicaciones();
   const { obtenerDatosUsuario } = useUsuarios();
 
-  const idUsuario = 2;
+  //const idUsuario = 2;
+
+  
 
   const cargarPublicacionesUsuario = () => {
     setCargando(true)
@@ -25,11 +30,10 @@ function Perfil() {
       .then((resp) => {
         setPublicacionesUsuario(resp.data)
         console.log('Publicaciones del usuario:', resp.data)
-      })
+      })                             
       .catch((err) => {
-        console.error('Error cargando datos del usuario:', err)
+        console.error('Error cargando publicaciones del usuario:', err)
       })
-      .finally(() => setCargando(false))
   }
 
   useEffect(() => {
@@ -78,15 +82,17 @@ function Perfil() {
       />
       
         <div className="biografia-secundaria mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">
-          <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-3 text-center tracking-wider uppercase">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-3 text-center">
             Sobre mí
           </h3>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
-              {biografiaSecundaria || 'Nada por aquí aún.'}
+            {biografiaSecundaria || 'Nada por aquí aún.'}
           </p>
         </div>
         
-        <FormularioPublicacion />
+        <FormularioPublicacion
+          reiniciarFeed={cargarPublicacionesUsuario}
+        />
         
         <Filtros/>
         
@@ -96,23 +102,24 @@ function Perfil() {
         </div>
         <div className="posts-lista">
           <ul>
-        {publicacionesUsuario ? publicacionesUsuario.map((pub) => (
-          <Publicacion
-            key={pub.idPublicacion}
-            fotoPerfil={pub.fotoPerfil}
-            apodo={pub.apodo}
-            nombreUsuario={pub.nombreUsuario}
-            titulo={pub.titulo}
-            descripcion={pub.descripcion}
-            imagen={pub.imagen}
-            fechaCreacion={pub.fechaCreacion}
-            meGusta={pub.meGusta}
-            cantidadNomegusta={pub.noMeGusta}
-            comentarios={pub.comentarios}
-          />
-        ))
-      : <p>No hay publicaciones para mostrar.</p>}
-      </ul>
+              {publicacionesUsuario ? publicacionesUsuario.map((pub) => (
+                <Publicacion
+                  key={pub.idPublicacion}
+                  idPublicacion={pub.idPublicacion}
+                  fotoPerfil={pub.fotoPerfil}
+                  apodo={pub.apodo}
+                  nombreUsuario={pub.nombreUsuario}
+                  titulo={pub.titulo}
+                  descripcion={pub.descripcion}
+                  imagen={pub.imagen}
+                  fechaCreacion={pub.fechaCreacion}
+                  meGusta={pub.meGusta}
+                  noMeGusta={pub.noMeGusta}
+                  comentarios={pub.comentarios}
+                />
+              ))
+              : <p>No hay publicaciones para mostrar.</p>}
+          </ul>
         </div>
       <div className="w-full h-10 bg-[#6A4A49] mt-10 shadow-inner">
       </div>

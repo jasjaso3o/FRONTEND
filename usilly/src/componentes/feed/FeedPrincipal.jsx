@@ -53,7 +53,7 @@ function Feed_principal() {
             imagen={pub.imagen}
             fechaCreacion={pub.fechaCreacion}
             meGusta={pub.meGusta}
-            cantidadNomegusta={pub.noMeGusta}
+            noMeGusta={pub.noMeGusta}
             comentarios={pub.comentarios}
           />
         ))

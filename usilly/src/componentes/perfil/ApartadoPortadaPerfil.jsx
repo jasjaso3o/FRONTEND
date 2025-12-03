@@ -1,6 +1,9 @@
 
 
 function ApartadoPortadaPerfil({datosUsuario = {}}) {
+  if (!datosUsuario) return null;
+
+
   const { fotoPerfil, portada, apodo, nombreUsuario, biografiaPrincipal, totalMeGusta, totalPublicaciones, totalSeguidores, totalSeguidos } = datosUsuario;
 
   return (

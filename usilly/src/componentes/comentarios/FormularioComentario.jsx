@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useComentarios } from '../../hooks/useComentarios';
 
 function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [imagen, setImagen] = useState(null);
+  const [contenido, setContenido] = useState('');
+  //const [imagen, setImagen] = useState(null);
   const idUsuario = 2;
+  const idPublicacion= 1
 
   const { crearComentario } = useComentarios();
 
@@ -13,17 +13,16 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
   e.preventDefault();
   
   const form = {
-    titulo,
-    descripcion,
-    idUsuario
+    contenido,
+    idUsuario,
+    idPublicacion
   };
   
-  crearPublicacion(form)
+  crearComentario(form)
   .then((resp) => {
     console.log("Comentario creado:", form);
-    reiniciarFeed();
-    setDescripcion(""),
-    setTitulo("")
+    //reiniciarFeed();
+    setContenido("")
   })
   .catch((error) => {
     console.error(error);
@@ -36,7 +35,7 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
 
   //   await crearPublicacion({
   //     titulo,
-  //     descripcion,
+  //     contenido,
   //     imagen,
   //     idUsuario: 1
   //   });
@@ -46,9 +45,9 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
   //   e.preventDefault();
 
   //   const publicacion = {
-  //     titulo, descripcion, imagen
+  //     titulo, contenido, imagen
   //   }
-  //   console.log('Publicación enviada:', { titulo, descripcion });
+  //   console.log('Publicación enviada:', { titulo, contenido });
   // };
 
   const handleAgregarImagen = () => {
@@ -73,18 +72,10 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
             <input
               type="text"
               placeholder="¿Qué piensas el día de hoy?"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
+              value={contenido}
+              onChange={(e) => setContenido(e.target.value)}
               className="w-full text-lg sm:text-xl font-semibold placeholder-gray-500 text-gray-800 focus:outline-none mb-1 p-0 border-none focus:ring-0"
               required
-            />
-
-            <textarea
-              placeholder="Exprésate más aquí..."
-              rows="3"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              className="w-full text-sm sm:text-base placeholder-gray-400 text-gray-600 resize-none focus:outline-none p-0 border-none focus:ring-0 overflow-y-auto"
             />
           </div>
         </div>
@@ -120,7 +111,7 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
           <button
             type="submit"
             className="px-4 py-2 bg-red-600 text-white font-semibold rounded-full shadow-md hover:bg-red-700 transition duration-200 disabled:bg-red-300"
-            disabled={!titulo}
+            disabled={!contenido}
           >
             Publicar
           </button>
