@@ -92,6 +92,7 @@ function Perfil({idUsuario}) {
         
         <FormularioPublicacion
           reiniciarFeed={cargarPublicacionesUsuario}
+          idUsuario={idUsuario}
         />
         
         <Filtros/>
@@ -116,6 +117,8 @@ function Perfil({idUsuario}) {
                   meGusta={pub.meGusta}
                   noMeGusta={pub.noMeGusta}
                   comentarios={pub.comentarios}
+                  idUsuario={pub.idUsuario}
+                  idUsuarioPropietario={pub.idUsuario}
                 />
               ))
               : <p>No hay publicaciones para mostrar.</p>}

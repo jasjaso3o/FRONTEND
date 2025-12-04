@@ -15,18 +15,16 @@ export function usePublicaciones() {
     return get(`/publicaciones/${idPublicacion}`);
   }
 
-  const crearPublicacion = (formData) => {
-    return post("/publicaciones", formData, {
-
-    });
+  const crearPublicacion = (form) => {
+    return post("/publicaciones", form);
   };
 
   const editarPublicacion = (id, data) => {
     return put(`/publicaciones/${id}`, data);
   };
 
-  const eliminarPublicacion = (id) => {
-    return del(`/publicaciones/${id}`);
+  const eliminarPublicacion = (idPublicacion) => {
+    return del(`/publicaciones/${idPublicacion}`);
   };
 
   return {

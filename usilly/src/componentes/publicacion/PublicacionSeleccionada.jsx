@@ -6,10 +6,9 @@ import { usePublicaciones } from "../../hooks/usePublicaciones";
 import { useComentarios } from "../../hooks/useComentarios";
 import FormularioComentario from "../comentarios/FormularioComentario";
 
-function PublicacionSeleccionada() {
+function PublicacionSeleccionada({idUsuarioLogueado, idUsuario}) {
   const [match, params] = useRoute('/publicacion/:id');
-  const id = params?.id;
-
+  const id = params?.id;  //corregir el nombre poco descriptivo
   const { obtenerPublicacion } = usePublicaciones();
   const [publicacion, setPublicacion] = useState(null);
   const [cargando, setCargando] = useState(false);
@@ -19,22 +18,30 @@ function PublicacionSeleccionada() {
 
   const { obtenerComentariosPub } = useComentarios();
 
-  const cargarComentarios = () => {
-    obtenerComentariosPub(idPublicacion)
-    .then((resp) => {
-        setComentarios(resp.data);
-        console.log(resp.data); 
+  useEffect(() => {
+    if (!id) return;
+    setCargando(true);
+    obtenerComentariosPub(id)
+      .then((resp) => {
+        const comentarios = resp.data; 
+        setComentarios(comentarios);
       })
-      .catch((err) => console.error(err));
-  }
+      .catch((err) => {
+        console.error('Error cargando los comentarios:', err);
+        setError(err);
+      })
+      .finally(() => setCargando(false));
+  }, [id]);
 
+
+//corregir este useEffect :(
 
   useEffect(() => {
     if (!id) return;
     setCargando(true);
     obtenerPublicacion(id)
       .then((resp) => {
-        const p = Array.isArray(resp.data) ? resp.data[0] : resp.data;
+        const p = Array.isArray(resp.data) ? resp.data[0] : resp.data; //corregir el nombre poco descriptivo
         setPublicacion(p);
       })
       .catch((err) => {
@@ -45,6 +52,7 @@ function PublicacionSeleccionada() {
   }, [id]);
 
 
+  //que hace esto aca??? no tiene ningun sentido
   if (cargando) return <div className="max-w-3xl mx-auto p-4">Cargando publicación...</div>;
   if (error) return <div className="max-w-3xl mx-auto p-4">Error cargando publicación.</div>;
   if (!publicacion) return <div className="max-w-3xl mx-auto p-4">Publicación no encontrada.</div>;
@@ -64,6 +72,8 @@ function PublicacionSeleccionada() {
         meGusta={publicacion.meGusta}
         noMeGusta={publicacion.noMeGusta}
         comentarios={publicacion.comentarios}
+        idUsuarioPropietario={publicacion.idUsuario}
+        idUsuarioLogueado={idUsuarioLogueado}
       />
       <FormularioComentario/>
 

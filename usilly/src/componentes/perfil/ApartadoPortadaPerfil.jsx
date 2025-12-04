@@ -28,8 +28,8 @@ function ApartadoPortadaPerfil({datosUsuario = {}}) {
             </div>
 
             <div className="mt-2">
-              <h1 className="text-2xl font-extrabold text-gray-900">{nombreUsuario}</h1>
-              <p className="text-gray-500 text-sm mb-2">@{apodo}</p>
+              <h1 className="text-2xl font-extrabold text-gray-900">{apodo}</h1>
+              <p className="text-gray-500 text-sm mb-2">@{nombreUsuario}</p>
               <p className="text-gray-700 text-sm">{biografiaPrincipal}</p>
 
             {/* </div> */}

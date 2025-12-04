@@ -6,9 +6,6 @@ import './header.css'
 export default function Header({logout, userRol}) {
 
   const token = localStorage.getItem('token');
-  //const estaLogeado = !!localStorage.getItem("token");
-
-
 
   return (
     <div className="header bg-[#4E2928] h-[60px] flex items-center text-white">
@@ -21,7 +18,7 @@ export default function Header({logout, userRol}) {
         <>
           <Link to="/feed">Principal</Link>
           <Link to="/perfil">Perfil</Link>
-          {userRol() === 'administrador' ?
+          {userRol === 'administrador' ?
             <Link to="/administrador">Panel de Control</Link>
             : null
           }

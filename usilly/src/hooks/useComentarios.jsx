@@ -4,8 +4,8 @@ import { useAxios } from "./useAxios";
 export function useComentarios() {
   const { get, post, put, del } = useAxios();
 
-  const obtenerComentariosPub = (idPublicacion) => {
-    return get(`/comentarios/${idPublicacion}`);
+  const obtenerComentariosPub = (idPublicacion) => {    
+    return get(`/comentarios/82`);
   };
 
   const crearComentario = (formData) => {

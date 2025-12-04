@@ -5,19 +5,24 @@ const url = "http://localhost:3606/api";
 
 export function useAxios() {
 
-  const get = (endpoint, config = {}) => {
+  const config = {
+    headers: {authorization: localStorage.getItem('token')
+    }
+  }
+
+  const get = (endpoint) => {
     return axios.get(`${url}${endpoint}`, config);
   };
 
-  const post = (endpoint, data, config = {}) => {
+  const post = (endpoint, data) => {
     return axios.post(`${url}${endpoint}`, data, config);
   };
 
-  const put = (endpoint, data, config = {}) => {
+  const put = (endpoint, data) => {
     return axios.put(`${url}${endpoint}`, data, config);
   };
 
-  const del = (endpoint, config = {}) => { 
+  const del = (endpoint) => { 
     return axios.delete(`${url}${endpoint}`, config);
   };
 

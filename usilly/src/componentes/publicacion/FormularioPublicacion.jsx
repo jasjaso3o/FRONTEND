@@ -1,25 +1,31 @@
 import { useState } from 'react';
 import { usePublicaciones } from '../../hooks/usePublicaciones';
 
-function FormularioPublicacion({ fotoPerfil, reiniciarFeed }) {
+function FormularioPublicacion({ fotoPerfil, reiniciarFeed, idUsuario }) {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
-  const idUsuario = 2;
+  //const idUsuario = 2;
 
   const { crearPublicacion } = usePublicaciones();
   // const { obtenerFeed } = usePublicaciones()
+
+  const token = localStorage.getItem('token');
+
 
   const publicar = (e) => {
     e.preventDefault();
     
     const form = {
+      idUsuario,
       titulo,
       descripcion,
       imagen: null,
-      idUsuario
+      token
     };
     
+    console.log('datos a enviar para publicar', form)
+
     crearPublicacion(form)
     .then((resp) => {
       console.log("Publicación creada:", form);
@@ -66,7 +72,7 @@ function FormularioPublicacion({ fotoPerfil, reiniciarFeed }) {
       <form onSubmit={publicar}>
         <div className="flex items-start space-x-3 sm:space-x-4">
           <img
-            src={fotoPerfil || 'https://placehold.co/48x48/cccccc/333333?text=PF'}
+            src={/*fotoPerfil ||*/ 'https://placehold.co/48x48/cccccc/333333?text=PF'}
             alt="Foto de Perfil del Usuario"
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0 mt-1"
           />
