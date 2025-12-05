@@ -21,7 +21,8 @@ function Perfil({idUsuario}) {
 
   //const idUsuario = 2;
 
-  
+  const [page, setPage] = useState(1);
+
 
   const cargarPublicacionesUsuario = () => {
     setCargando(true)

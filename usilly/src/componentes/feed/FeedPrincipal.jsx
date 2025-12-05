@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Publicacion from '../publicacion/Publicacion.jsx'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion.jsx'
-import Comentario from '../comentarios/TarjetaComentario.jsx'
 import { usePublicaciones } from '../../hooks/usePublicaciones.jsx'
 
 function Feed_principal({idUsuarioLogueado}) {
@@ -9,10 +8,18 @@ function Feed_principal({idUsuarioLogueado}) {
 
   const { obtenerFeed } = usePublicaciones();
 
+  const limit = 20;      // cuántas publicaciones por página
+  const [offset, setOffset] = useState(0);
+
+  const [primeraCarga, setPrimeraCarga] = useState(true);
+
+
   const cargarFeed = () => {
-    obtenerFeed()
+    obtenerFeed(limit, offset)
       .then((resp) => {
-        setPublicaciones(resp.data);
+        const aux = [...publicaciones];
+        aux.push(...resp.data);
+        setPublicaciones(aux);
         console.log(resp.data); 
       })
       .catch((err) => console.error(err));
@@ -20,7 +27,19 @@ function Feed_principal({idUsuarioLogueado}) {
 
   useEffect(() => {
     cargarFeed();
-  }, []);
+    setPrimeraCarga(false);
+    console.log('estas dn¿entro del 1er useefect');
+  }, []); //cargar solo una vez al montar el componente 
+
+  useEffect(() => {
+    if(offset !== 0) {
+      cargarFeed();
+      console.log('estas dn¿entro del 2do useefect');
+      
+    }
+  }, [offset]);
+
+  //cada vez que cambie page trae otras 20 publicaciones mas
 
   console.log('idUsuarioLogueado en /feed', idUsuarioLogueado);
 
@@ -65,6 +84,12 @@ function Feed_principal({idUsuarioLogueado}) {
         ))
       : <p>No hay publicaciones para mostrar.</p>}
       </ul>
+      <button onClick={() => {setOffset(prev => prev + limit);
+        setCargando(true);}
+      }>
+        Cargar más
+      </button>
+
     </div>
 
   )

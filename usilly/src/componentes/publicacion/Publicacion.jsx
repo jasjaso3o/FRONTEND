@@ -20,7 +20,7 @@ function Publicacion({
 
   const { eliminarPublicacion } = usePublicaciones();
 
-  console.log('idUsuarioLogueado:', idUsuarioLogueado, 'idUsuarioPropietario:', idUsuarioPropietario);
+  //console.log('idUsuarioLogueado:', idUsuarioLogueado, 'idUsuarioPropietario:', idUsuarioPropietario);
 
   const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
   

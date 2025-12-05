@@ -73,53 +73,53 @@ function App() {
 
 
   return(
-    <div> //porq esto?????
+    <>
       <Router>
         <Header
           logout={logout}
           userRol={authData?.rol}
         />
+
         <Switch>
+
           <Route path="/login">
             <Logearse />
           </Route>
+
           <Route path="/signup">
             <Registrarse />
           </Route>
-          //rehacer proteccion de rutas
-          <Route path="/feed">
-            {authData && (authData?.rol === "usuario" || authData?.rol === "administrador") 
 
-            ?
-              <Feed_principal 
-                idUsuarioLogueado={authData?.id}
-              />
-              :
-              <div>Inicie sesión primero!</div>
-            }
-          </Route>
-          <Route path="/publicacion/:id">
-            {authData && (authData.rol === "usuario" || authData.rol === "administrador")
-            ?
-              <PublicacionSeleccionada //pendiente
-                idUsuarioLogueado={authData.id}
-              />
-              :
-              <div>Inicie sesión primero!</div>
-            }
-          </Route>
-          <Route path="/perfil"> //separar perfil propio de otros perfiles
-            {authData && (authData.rol === "usuario" || authData.rol === "administrador") 
-            ?
-              <Perfil
-                //?? retorna el operando d lado derecho si el izq es null, caso contrario devuelve el lado izq(idUsuario que inicio sesion)
-                idUsuario={perfilSeleccionado ?? authData.id}
-              />
-              :
-              <div>Inicie sesión primero!</div>
-            }
-          </Route>
+          {authData && (authData?.rol === "usuario" || authData?.rol === "administrador") 
           
+          ?
+            <>
+              <Route path="/feed">
+                  <Feed_principal 
+                    idUsuarioLogueado={authData?.id}
+                    />
+              </Route>
+
+              <Route path="/publicacion/:id">
+                <PublicacionSeleccionada //pendiente
+                    idUsuarioLogueado={authData.id}
+                    />
+              </Route>
+
+              <Route path="/perfil"> //separar perfil propio de otros perfiles
+                <Perfil
+                    //?? retorna el operando d lado derecho si el izq es null, caso contrario devuelve el lado izq(idUsuario que inicio sesion)
+                    idUsuario={perfilSeleccionado ?? authData.id}
+                  />
+              </Route>
+            </>
+          
+          :
+          
+          <p>Inicie sesión primero!</p>
+          
+          }
+
           <Route path="/administrador">
             {authData && (authData.rol === "administrador")  
             ?
@@ -134,7 +134,7 @@ function App() {
         </Switch>
       </Router>
       
-    </div>
+    </>
   )  
 }
 

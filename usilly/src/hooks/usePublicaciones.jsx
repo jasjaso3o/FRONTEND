@@ -3,8 +3,10 @@ import { useAxios } from "./useAxios";
 export function usePublicaciones() {
   const { get, post, put, del } = useAxios();
 
-  const obtenerFeed = () => {
-    return get('/publicaciones');
+  const obtenerFeed = (limit = 20, offset = 0) => {
+    console.log(limit, offset, 'aaaaaaaa');
+    
+    return get(`/publicaciones?limit=${limit}&offset=${offset}`);
   };
 
   const obtenerPublicacionesUsuario = (idUsuario) => {
