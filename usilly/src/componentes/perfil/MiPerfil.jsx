@@ -1,4 +1,3 @@
-import './perfil.css'
 import { useState, useEffect } from 'react'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion';
 import Publicacion from '../publicacion/Publicacion';
@@ -8,10 +7,9 @@ import { usePublicaciones } from '../../hooks/usePublicaciones'
 import { useUsuarios } from '../../hooks/useUsuarios';
 
 
-function Perfil({ idUsuarioLogueado, perfilId }) {
+function MiPerfil({idUsuario}) {
 
-  const perfilIdMostrado = perfilId ?? idUsuarioLogueado;
-  const esMiPerfil = perfilIdMostrado === idUsuarioLogueado;
+  console.log('Perfil recibió idUsuario:', idUsuario);
 
   const [datosUsuario, setDatosUsuario] = useState()
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
@@ -20,13 +18,15 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
   const { obtenerPublicacionesUsuario } = usePublicaciones();
   const { obtenerDatosUsuario } = useUsuarios();
 
+  //const idUsuario = 2;
+
   const [page, setPage] = useState(1);
 
 
   const cargarPublicacionesUsuario = () => {
     setCargando(true)
     
-    obtenerPublicacionesUsuario(perfilIdMostrado)
+    obtenerPublicacionesUsuario(idUsuario)
       .then((resp) => {
         setPublicacionesUsuario(resp.data)
         console.log('Publicaciones del usuario:', resp.data)
@@ -35,10 +35,14 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
         console.error('Error cargando publicaciones del usuario:', err)
       })
   }
-  
+
+  useEffect(() => {
+    cargarPublicacionesUsuario()
+  }, [idUsuario])
+
   const cargarDatosUsuario = () => {
     setCargando(true)
-    obtenerDatosUsuario(perfilIdMostrado)
+    obtenerDatosUsuario(idUsuario)
       .then((resp) => {
         setDatosUsuario(resp.data)
         console.log('Datos del usuario:', resp.data)
@@ -51,8 +55,7 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
 
   useEffect(() => {
     cargarDatosUsuario()
-    cargarPublicacionesUsuario()
-  }, [perfilIdMostrado])
+  }, [idUsuario])
 
 // Componente: Filtro de Posts
 // const FiltroPosts = () => (
@@ -61,7 +64,6 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
 // );
 
   const { biografiaSecundaria} = datosUsuario || {};
-
   return (
     <div className="perfil-completo min-h-screen flex flex-col items-center">
       <div className="w-full bg-[#6A4A49] text-white p-3 flex items-center justify-start top-0 z-10 shadow-md">
@@ -90,7 +92,7 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
         
         <FormularioPublicacion
           reiniciarFeed={cargarPublicacionesUsuario}
-          idUsuario={perfilIdMostrado}
+          idUsuario={idUsuario}
         />
         
         <Filtros/>
@@ -117,8 +119,6 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
                   comentarios={pub.comentarios}
                   idUsuario={pub.idUsuario}
                   idUsuarioPropietario={pub.idUsuario}
-                  idUsuarioLogueado={idUsuarioLogueado}
-                  onSelectProfile={() => { /* handled by parent via route selection */ }}
                 />
               ))
               : <p>No hay publicaciones para mostrar.</p>}
@@ -130,4 +130,4 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
   );
 
 }
-export default Perfil;
+export default MiPerfil;

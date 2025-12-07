@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import './header.css'
 
 
-export default function Header({logout, userRol}) {
+export default function Header({logout, userRol, setPerfilSeleccionado}) {
 
   const token = localStorage.getItem('token');
 
@@ -17,7 +17,10 @@ export default function Header({logout, userRol}) {
       ) : (
         <>
           <Link to="/feed">Principal</Link>
-          <Link to="/perfil">Perfil</Link>
+          <Link to="/perfil"
+            onClick={setPerfilSeleccionado(null)}
+          
+          >Perfil</Link>
           {userRol === 'administrador' ?
             <Link to="/administrador">Panel de Control</Link>
             : null

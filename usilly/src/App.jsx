@@ -8,6 +8,7 @@ import Registrarse from './componentes/login-registro/Registrarse.jsx'
 import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 import PublicacionSeleccionada from './componentes/publicacion/PublicacionSeleccionada.jsx'
 import Perfil from './componentes/perfil/Perfil.jsx'
+import MiPerfil from './componentes/perfil/MiPerfil.jsx'
 import PanelControl from './componentes/administrador/PanelControl.jsx'
 
 
@@ -62,7 +63,7 @@ function App() {
     const data = usuario();
     setAuthData(data); //guarda idUsuario y rol
     //esto esta mal???? deberia verificar si puedo cambiar el usuario en cualquier momento??
-  }, []);
+  }, [localStorage.getItem('token')]); //cada vez q cambie el token actualiza authData
 
   console.log("datos del usuario q inicio sesion: ", authData)
   
@@ -78,6 +79,7 @@ function App() {
         <Header
           logout={logout}
           userRol={authData?.rol}
+          setPerfilSeleccionado={setPerfilSeleccionado}
         />
 
         <Switch>
@@ -97,6 +99,7 @@ function App() {
               <Route path="/feed">
                   <Feed_principal 
                     idUsuarioLogueado={authData?.id}
+                    onSelectProfile={(idUsuario) => setPerfilSeleccionado(idUsuario)}
                     />
               </Route>
 
@@ -106,11 +109,11 @@ function App() {
                     />
               </Route>
 
-              <Route path="/perfil"> //separar perfil propio de otros perfiles
+              <Route path="/perfil">
                 <Perfil
-                    //?? retorna el operando d lado derecho si el izq es null, caso contrario devuelve el lado izq(idUsuario que inicio sesion)
-                    idUsuario={perfilSeleccionado ?? authData.id}
-                  />
+                  idUsuarioLogueado={authData.id}
+                  perfilId={perfilSeleccionado}
+                />
               </Route>
             </>
           

@@ -30,6 +30,8 @@ function FormularioPublicacion({ fotoPerfil, reiniciarFeed, idUsuario }) {
     .then((resp) => {
       console.log("Publicación creada:", form);
       reiniciarFeed();
+      console.log('se reinició el feed');
+      
       setDescripcion(""),
       setTitulo("")
     })
