@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { usePublicaciones } from '../../hooks/usePublicaciones';
 
-function FormularioPublicacion({ fotoPerfil, reiniciarFeed, idUsuario }) {
+function FormularioPublicacion({ 
+  fotoPerfil, 
+  cargarFeed, 
+  idUsuario,
+  setPaginaActual
+
+  }) {
+
+
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
@@ -29,9 +37,10 @@ function FormularioPublicacion({ fotoPerfil, reiniciarFeed, idUsuario }) {
     crearPublicacion(form)
     .then((resp) => {
       console.log("Publicación creada:", form);
-      reiniciarFeed();
+      cargarFeed();      
       console.log('se reinició el feed');
-      
+      setPublicacionActual(1);
+
       setDescripcion(""),
       setTitulo("")
     })

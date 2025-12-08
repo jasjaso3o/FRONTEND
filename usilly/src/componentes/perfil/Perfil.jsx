@@ -1,41 +1,33 @@
 import './perfil.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion';
 import Publicacion from '../publicacion/Publicacion';
 import ApartadoPortadaPerfil from './ApartadoPortadaPerfil';
 import Filtros from '../comun/Filtros';
 import { usePublicaciones } from '../../hooks/usePublicaciones'
 import { useUsuarios } from '../../hooks/useUsuarios';
+import Paginacion from '../comun/Paginacion'
 
 
-function Perfil({ idUsuarioLogueado, perfilId }) {
+function Perfil({ idUsuarioLogueado, perfilId,
+  total, 
+  setTotal,
+  pubsPorPagina, 
+  paginaActual, 
+  setPaginaActual,
+  }) {
 
   const perfilIdMostrado = perfilId ?? idUsuarioLogueado;
-  const esMiPerfil = perfilIdMostrado === idUsuarioLogueado;
 
   const [datosUsuario, setDatosUsuario] = useState()
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
   const [cargando, setCargando] = useState(true)
   
   const { obtenerPublicacionesUsuario } = usePublicaciones();
+  const { obtenerTotalUsuario } = usePublicaciones();
   const { obtenerDatosUsuario } = useUsuarios();
 
-  const [page, setPage] = useState(1);
 
-
-  const cargarPublicacionesUsuario = () => {
-    setCargando(true)
-    
-    obtenerPublicacionesUsuario(perfilIdMostrado)
-      .then((resp) => {
-        setPublicacionesUsuario(resp.data)
-        console.log('Publicaciones del usuario:', resp.data)
-      })                             
-      .catch((err) => {
-        console.error('Error cargando publicaciones del usuario:', err)
-      })
-  }
-  
   const cargarDatosUsuario = () => {
     setCargando(true)
     obtenerDatosUsuario(perfilIdMostrado)
@@ -49,10 +41,50 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
       .finally(() => setCargando(false))
   }
 
+  // const cargarPublicacionesUsuario = () => {
+  //   setCargando(true)
+    
+  //   obtenerPublicacionesUsuario(perfilIdMostrado)
+  //     .then((resp) => {
+  //       setPublicacionesUsuario(resp.data)
+  //       console.log('Publicaciones del usuario:', resp.data)
+  //     })                             
+  //     .catch((err) => {
+  //       console.error('Error cargando publicaciones del usuario:', err)
+  //     })
+  // }
+  
+
+  const cargarPublicacionesUsuario = useCallback((pagina = 1) => {
+    setCargando(true)
+    
+    obtenerPublicacionesUsuario(perfilIdMostrado, pubsPorPagina, pagina)
+      .then((resp) => {
+        setPublicacionesUsuario(resp.data)
+        setPaginaActual(pagina)
+        console.log('Publicaciones del usuario:', resp.data)
+      })                             
+      .catch((err) => {
+        console.error('Error cargando publicaciones del usuario:', err)
+      })
+  }, [obtenerPublicacionesUsuario, pubsPorPagina, setPaginaActual])
+
   useEffect(() => {
     cargarDatosUsuario()
-    cargarPublicacionesUsuario()
-  }, [perfilIdMostrado])
+    cargarPublicacionesUsuario(paginaActual)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }, [perfilIdMostrado, paginaActual])
+
+  useEffect(() => {
+  obtenerTotalUsuario(perfilIdMostrado)
+    .then((resp) => {
+      setTotal(resp.data.total); 
+    })
+    .catch(console.error);
+}, []);
 
 // Componente: Filtro de Posts
 // const FiltroPosts = () => (
@@ -124,6 +156,11 @@ function Perfil({ idUsuarioLogueado, perfilId }) {
               : <p>No hay publicaciones para mostrar.</p>}
           </ul>
         </div>
+        <Paginacion
+          total={total}
+          pubsPorPagina={pubsPorPagina}
+          setPaginaActual={setPaginaActual}
+        />
       <div className="w-full h-10 bg-[#6A4A49] mt-10 shadow-inner">
       </div>
     </div>

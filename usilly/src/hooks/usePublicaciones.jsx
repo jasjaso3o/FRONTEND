@@ -3,14 +3,23 @@ import { useAxios } from "./useAxios";
 export function usePublicaciones() {
   const { get, post, put, del } = useAxios();
 
-  const obtenerFeed = (limit = 20, offset = 0) => {
-    console.log(limit, offset, 'aaaaaaaa');
-    
+  const obtenerFeed = (limit = 10, pagina = 1) => {
+    const offset = (pagina - 1) * limit;
+    console.log(limit, offset, 'log de obtener feed');
     return get(`/publicaciones?limit=${limit}&offset=${offset}`);
   };
 
-  const obtenerPublicacionesUsuario = (idUsuario) => {
-    return get(`/publicaciones/usuario/${idUsuario}`);
+  const obtenerTotal = () => {
+    return get("/publicaciones/total");
+  }
+
+  const obtenerTotalUsuario = (idUsuario) => {
+    return get(`/publicaciones/total/${idUsuario}`)
+  }
+
+  const obtenerPublicacionesUsuario = (idUsuario, limit = 10, pagina = 1) => {
+    const offset = (pagina - 1) * limit;
+    return get(`/publicaciones/usuario/${idUsuario}?limit=${limit}&offset=${offset}`);
   };
 
   const obtenerPublicacion = (idPublicacion) => {
@@ -31,6 +40,8 @@ export function usePublicaciones() {
 
   return {
     obtenerFeed,
+    obtenerTotal,
+    obtenerTotalUsuario,
     obtenerPublicacionesUsuario,
     obtenerPublicacion,
     crearPublicacion,

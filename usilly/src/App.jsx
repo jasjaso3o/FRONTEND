@@ -1,14 +1,13 @@
-import React from 'react'
 import './App.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Router, Switch, Route, Redirect, useLocation } from 'wouter';
+import { usePublicaciones } from './hooks/usePublicaciones.jsx'
 import Header from './componentes/comun/header.jsx'
 import Logearse from './componentes/login-registro/Logearse.jsx'
 import Registrarse from './componentes/login-registro/Registrarse.jsx'
 import Feed_principal from './componentes/feed/FeedPrincipal.jsx'
 import PublicacionSeleccionada from './componentes/publicacion/PublicacionSeleccionada.jsx'
 import Perfil from './componentes/perfil/Perfil.jsx'
-import MiPerfil from './componentes/perfil/MiPerfil.jsx'
 import PanelControl from './componentes/administrador/PanelControl.jsx'
 
 
@@ -18,10 +17,21 @@ function App() {
 
   const [, setLocation] = useLocation();
   const [authData, setAuthData] = useState(null);
+  const [publicaciones, setPublicaciones] = useState([])
+  
+  const [total, setTotal] = useState(0);
+  const [paginaActual, setPaginaActual] = useState(1)
   
   const [perfilSeleccionado, setPerfilSeleccionado] = useState(null);
+  
+  const { obtenerFeed } = usePublicaciones();
+  const { obtenerTotal } = usePublicaciones();
 
+  const pubsPorPagina = 10;
 
+  const ultimaPubIndex = paginaActual * pubsPorPagina;
+  const primeraPubIndex = ultimaPubIndex - pubsPorPagina;
+  
   // const usuario = () => {
   //   const token = localStorage.getItem('token');
     
@@ -32,8 +42,27 @@ function App() {
   //   return payload?.data;
   // }
 
+  // const cargarFeed = () => {
+  //   obtenerFeed()
+  //     .then((resp) => {
+  //       //const aux = [...publicaciones];
+  //       // aux.push(...resp.data);
+  //       // setPublicaciones(aux);
+  //       setPublicaciones(resp.data)/*((prev) => [...prev, ...resp.data])*/
+  //       console.log(resp.data, 'se reinicio el feed'); 
+        
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
-  
+  // obtenerFeed(paginaActual, pubsPorPagina)
+  // .then((resp) => {
+  //   setPublicaciones(resp.data.publicaciones);
+  //   setTotal(resp.data.total);
+  // })
+
+  //LOGICA PARA EL INICIO DE SESIÓN/AUTENTICACIÓN
+
   const usuario = () => {
     const token = localStorage.getItem('token');
 
@@ -43,7 +72,6 @@ function App() {
 
     const partes = token.split('.');
 
-    // Validación: debe tener 3 partes
     if (partes.length !== 3) {
       console.error("TOKEN INVALIDO:", token);
       return false;
@@ -66,11 +94,41 @@ function App() {
   }, [localStorage.getItem('token')]); //cada vez q cambie el token actualiza authData
 
   console.log("datos del usuario q inicio sesion: ", authData)
-  
+
   const logout = () => {
     localStorage.removeItem('token');
     setLocation('/login');
   };
+  
+
+  // LOGICA PARA EL FEED Y PAGINADO DE PUBLICACIONES
+
+  const cargarFeed = useCallback((pagina = 1) => {
+    obtenerFeed(pubsPorPagina, pagina)
+      .then((resp) => {
+        setPublicaciones(resp.data);
+        setPaginaActual(pagina);  
+      })
+      .catch(console.error);
+  }, [obtenerFeed, pubsPorPagina, setPaginaActual])
+  
+  useEffect(() => {
+    cargarFeed(paginaActual);
+    console.log('estas reiniciando el feed(?');
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }, [paginaActual]);
+
+
+  useEffect(() => {
+  obtenerTotal()
+    .then((resp) => {
+      setTotal(resp.data.total); 
+    })
+    .catch(console.error);
+}, []);
 
 
   return(
@@ -80,6 +138,7 @@ function App() {
           logout={logout}
           userRol={authData?.rol}
           setPerfilSeleccionado={setPerfilSeleccionado}
+          setPaginaActual={setPaginaActual}
         />
 
         <Switch>
@@ -98,8 +157,16 @@ function App() {
             <>
               <Route path="/feed">
                   <Feed_principal 
+                    publicaciones={publicaciones}
+                    setPublicaciones={setPublicaciones}
                     idUsuarioLogueado={authData?.id}
                     onSelectProfile={(idUsuario) => setPerfilSeleccionado(idUsuario)}
+                    pubsPorPagina={pubsPorPagina}
+                    paginaActual={paginaActual}
+                    setPaginaActual={setPaginaActual}
+                    cargarFeed={cargarFeed}
+                    total={total}
+                    setTotal={setTotal}
                     />
               </Route>
 
@@ -113,6 +180,11 @@ function App() {
                 <Perfil
                   idUsuarioLogueado={authData.id}
                   perfilId={perfilSeleccionado}
+                  total={total}
+                  setTotal={setTotal}
+                  pubsPorPagina={pubsPorPagina}
+                  paginaActual={paginaActual}
+                  setPaginaActual={setPaginaActual}
                 />
               </Route>
             </>

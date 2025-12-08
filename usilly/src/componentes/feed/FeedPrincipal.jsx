@@ -2,41 +2,53 @@ import { useEffect, useState } from 'react'
 import Publicacion from '../publicacion/Publicacion.jsx'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion.jsx'
 import { usePublicaciones } from '../../hooks/usePublicaciones.jsx'
+import Paginacion from '../comun/Paginacion.jsx'
 
-function Feed_principal({idUsuarioLogueado, onSelectProfile}) {
-  const [publicaciones, setPublicaciones] = useState([])
+function Feed_principal({
+  publicaciones,
+  setPublicaciones,
+  idUsuarioLogueado, 
+  onSelectProfile, 
+  pubsPorPagina, 
+  paginaActual, 
+  setPaginaActual,
+  cargarFeed,
+  total
+}) {
+
+  //const [publicaciones, setPublicaciones] = useState([])
   const [offset, setOffset] = useState(0);
 
-  const { obtenerFeed } = usePublicaciones();
+  //const { obtenerFeed } = usePublicaciones();
 
-  const limit = 20;      // cuántas publicaciones por página
+  //const limit = 20;      // cuántas publicaciones por página
   
   const [primeraCarga, setPrimeraCarga] = useState(true);
 
 //....
-  const cargarFeed = () => {
-    obtenerFeed(limit, offset)
-      .then((resp) => {
-        //const aux = [...publicaciones];
-        // aux.push(...resp.data);
-        // setPublicaciones(aux);
-        setPublicaciones((prev) => [...prev, ...resp.data])
-        console.log(resp.data, 'se reinicio el feed'); 
+  // const cargarFeed = () => {
+  //   obtenerFeed(limit, offset)
+  //     .then((resp) => {
+  //       //const aux = [...publicaciones];
+  //       // aux.push(...resp.data);
+  //       // setPublicaciones(aux);
+  //       setPublicaciones((prev) => [...prev, ...resp.data])
+  //       console.log(resp.data, 'se reinicio el feed'); 
         
-      })
-      .catch((err) => console.error(err));
-  };
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
-  useEffect(() => {
-    cargarFeed();
-    //setPrimeraCarga(false);
-    console.log('estas dn¿entro del 1er useefect');
-  }, [offset]); //cargar solo una vez al montar el componente 
+  // useEffect(() => {
+  //   cargarFeed();
+  //   //setPrimeraCarga(false);
+  //   console.log('estas dn¿entro del 1er useefect');
+  // }, [offset]); //cargar solo una vez al montar el componente 
 
-  const reiniciarFeed = () => {
-    setPublicaciones([]);
-    setOffset(0);
-  }
+  // const reiniciarFeed = () => {
+  //   setPublicaciones([]);
+  //   setOffset(0);
+  // }
 
   // useEffect(() => {
   //   if(offset !== 0) {
@@ -59,20 +71,23 @@ function Feed_principal({idUsuarioLogueado, onSelectProfile}) {
   //   setLocation(`/publicacion/${idPublicacion}`);
   // };
 
+  console.log(publicaciones);
+  
 
   return (
     <div className="Feed">
       <h1>Estas en el feed principal!!</h1>
       <FormularioPublicacion
-        reiniciarFeed={reiniciarFeed}
+        cargarFeed={cargarFeed}
         idUsuario={idUsuarioLogueado}
+        setPaginaActual={setPaginaActual}  
       />
       <ul>
         {publicaciones ? publicaciones.map((pub) => (
           //hacer un componente Publicaciones que reciba un array de publicaciones y las mapee????
           //corregir el mensaje de no hay publicaciones y el msj de error
           <Publicacion
-            //onclick={detallePublicacion}
+
             key={pub.idPublicacion}
             idPublicacion={pub.idPublicacion}
             fotoPerfil={pub.fotoPerfil}
@@ -92,9 +107,12 @@ function Feed_principal({idUsuarioLogueado, onSelectProfile}) {
         ))
       : <p>No hay publicaciones para mostrar.</p>}
       </ul>
-      <button onClick={() => setOffset((prev) => prev + limit)}>
-        Cargar más
-      </button>
+      <Paginacion
+        total={total}
+        pubsPorPagina={pubsPorPagina}
+        paginaActual={paginaActual}
+        setPaginaActual={setPaginaActual}
+      />
 
     </div>
 
