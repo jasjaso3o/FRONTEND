@@ -17,58 +17,7 @@ function Feed_principal({
   authData
 }) {
 
-  //const [publicaciones, setPublicaciones] = useState([])
   const [cargando, setCargando] = useState(true)
-
-  //const { obtenerFeed } = usePublicaciones();
-
-  //const limit = 20;      // cuántas publicaciones por página
-  
-  const [primeraCarga, setPrimeraCarga] = useState(true);
-
-//....
-  // const cargarFeed = () => {
-  //   obtenerFeed(limit, offset)
-  //     .then((resp) => {
-  //       //const aux = [...publicaciones];
-  //       // aux.push(...resp.data);
-  //       // setPublicaciones(aux);
-  //       setPublicaciones((prev) => [...prev, ...resp.data])
-  //       console.log(resp.data, 'se reinicio el feed'); 
-        
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
-  // useEffect(() => {
-  //   cargarFeed();
-  //   //setPrimeraCarga(false);
-  //   console.log('estas dn¿entro del 1er useefect');
-  // }, [offset]); //cargar solo una vez al montar el componente 
-
-  // const reiniciarFeed = () => {
-  //   setPublicaciones([]);
-  //   setOffset(0);
-  // }
-
-  // useEffect(() => {
-  //   if(offset !== 0) {
-  //     cargarFeed();
-  //     console.log('estas dn¿entro del 2do useefect');
-      
-  //   }
-  // }, [offset]);
-
-  //cada vez que cambie page trae otras 20 publicaciones mas
-
-  // const detallePublicacion = () => {
-  //   console.log('navegando a publicacion id:', idPublicacion, 'ruta actual:', location);
-  //   if (!idPublicacion) {
-  //     console.error('Publicacion: idPublicacion está undefined, no se puede navegar');
-  //     return;
-  //   }
-  //   setLocation(`/publicacion/${idPublicacion}`);
-  // };
   
 
   if (authData === null) {
@@ -103,6 +52,8 @@ function Feed_principal({
             idUsuarioPropietario={pub.idUsuario}
             idUsuarioLogueado={idUsuarioLogueado}
             onSelectProfile={onSelectProfile}
+            cargarFeed={cargarFeed}
+            
           />
         ))
       : <p>No hay publicaciones para mostrar.</p>}

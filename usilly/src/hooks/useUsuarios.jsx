@@ -14,24 +14,22 @@ export function useUsuarios() {
   const obtenerDatosUsuario = (idUsuario) => {
     return get(`/usuarios/${idUsuario}`);
   };
+  
+  const editarUsuario = (idUsuario, data) => {
+    return put(`/usuarios/${idUsuario}`, data);
+  };
 
   const registrarUsuario = (datosRegistro) => {
-    return post("/signup", datosRegistro, {
-
-    });
+    return post("/signup", datosRegistro);
   };
 
   const logearUsuario = (datosInicioSesion) => {
     return post("/login", datosInicioSesion, false)
   }
 
-  const editarPublicacion = (id, data) => {
-    return put(`/publicaciones/${id}`, data);
-  };
-
-  const eliminarPublicacion = (id) => {
-    return del(`/publicaciones/${id}`);
-  };
+  // const eliminarPublicacion = (id) => {
+  //   return del(`/publicaciones/${id}`);
+  // };
 
   return {
     obtenerUsuarios,
@@ -39,7 +37,7 @@ export function useUsuarios() {
     obtenerDatosUsuario,
     registrarUsuario,
     logearUsuario,
-    editarPublicacion,
-    eliminarPublicacion
+    editarUsuario,
+    //eliminarPublicacion
   };
 }

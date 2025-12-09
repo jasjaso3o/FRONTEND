@@ -8,7 +8,6 @@ import { usePublicaciones } from '../../hooks/usePublicaciones'
 import { useUsuarios } from '../../hooks/useUsuarios';
 import Paginacion from '../comun/Paginacion'
 
-
 function Perfil({ idUsuarioLogueado, perfilId,
   total, 
   setTotal,
@@ -22,10 +21,13 @@ function Perfil({ idUsuarioLogueado, perfilId,
   const [datosUsuario, setDatosUsuario] = useState()
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
   const [cargando, setCargando] = useState(true)
-  
+  const [openEditar, setOpenEditar] = useState(false)
+
+
   const { obtenerPublicacionesUsuario } = usePublicaciones();
   const { obtenerTotalUsuario } = usePublicaciones();
   const { obtenerDatosUsuario } = useUsuarios();
+
 
 
   const cargarDatosUsuario = () => {
@@ -41,50 +43,38 @@ function Perfil({ idUsuarioLogueado, perfilId,
       .finally(() => setCargando(false))
   }
 
-  // const cargarPublicacionesUsuario = () => {
-  //   setCargando(true)
-    
-  //   obtenerPublicacionesUsuario(perfilIdMostrado)
-  //     .then((resp) => {
-  //       setPublicacionesUsuario(resp.data)
-  //       console.log('Publicaciones del usuario:', resp.data)
-  //     })                             
-  //     .catch((err) => {
-  //       console.error('Error cargando publicaciones del usuario:', err)
-  //     })
-  // }
   
-
   const cargarPublicacionesUsuario = useCallback((pagina = 1) => {
     setCargando(true)
     
     obtenerPublicacionesUsuario(perfilIdMostrado, pubsPorPagina, pagina)
-      .then((resp) => {
-        setPublicacionesUsuario(resp.data)
-        setPaginaActual(pagina)
-        console.log('Publicaciones del usuario:', resp.data)
-      })                             
-      .catch((err) => {
-        console.error('Error cargando publicaciones del usuario:', err)
-      })
+    .then((resp) => {
+      setPublicacionesUsuario(resp.data)
+      setPaginaActual(pagina)
+      console.log('Publicaciones del usuario:', resp.data)
+    })                             
+    .catch((err) => {
+      console.error('Error cargando publicaciones del usuario:', err)
+    })
   }, [obtenerPublicacionesUsuario, pubsPorPagina, setPaginaActual])
-
+  
   useEffect(() => {
-    cargarDatosUsuario()
+    cargarDatosUsuario(openEditar)
     cargarPublicacionesUsuario(paginaActual)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     })
-  }, [perfilIdMostrado, paginaActual])
-
+  }, [perfilIdMostrado, paginaActual, openEditar])
+  
   useEffect(() => {
-  obtenerTotalUsuario(perfilIdMostrado)
+    obtenerTotalUsuario(perfilIdMostrado)
     .then((resp) => {
       setTotal(resp.data.total); 
     })
     .catch(console.error);
-}, []);
+  }, []);
+  
 
 // Componente: Filtro de Posts
 // const FiltroPosts = () => (
@@ -92,7 +82,7 @@ function Perfil({ idUsuarioLogueado, perfilId,
 //   </div>
 // );
 
-  const { biografiaSecundaria} = datosUsuario || {};
+  const { biografiaSecundaria, fotoPerfil } = datosUsuario || {};
 
   return (
     <div className="perfil-completo min-h-screen flex flex-col items-center">
@@ -108,7 +98,10 @@ function Perfil({ idUsuarioLogueado, perfilId,
       </div>
       <ApartadoPortadaPerfil
         datosUsuario={datosUsuario}
-
+        idUsuarioLogueado={idUsuarioLogueado}
+        openEditar={openEditar}
+        setOpenEditar={setOpenEditar}
+        idUsuarioPropietario={perfilIdMostrado}
       />
       
         <div className="biografia-secundaria mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">
@@ -122,7 +115,11 @@ function Perfil({ idUsuarioLogueado, perfilId,
         
         <FormularioPublicacion
           reiniciarFeed={cargarPublicacionesUsuario}
-          idUsuario={perfilIdMostrado}
+          //idUsuario={perfilIdMostrado}
+          fotoPerfil={fotoPerfil}
+          idUsuario={idUsuarioLogueado}
+          setPaginaActual={setPaginaActual}
+          cargarFeedUsuario={cargarPublicacionesUsuario}
         />
         
         <Filtros/>
@@ -150,7 +147,8 @@ function Perfil({ idUsuarioLogueado, perfilId,
                   idUsuario={pub.idUsuario}
                   idUsuarioPropietario={pub.idUsuario}
                   idUsuarioLogueado={idUsuarioLogueado}
-                  onSelectProfile={() => { /* handled by parent via route selection */ }}
+                  onSelectProfile={() => {}}
+                  cargarFeedUsuario={cargarPublicacionesUsuario}
                 />
               ))
               : <p>No hay publicaciones para mostrar.</p>}

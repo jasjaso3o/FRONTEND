@@ -15,7 +15,9 @@ export default function Publicacion({
   comentarios,
   idUsuarioPropietario,
   idUsuarioLogueado,
-  onSelectProfile
+  onSelectProfile,
+  cargarFeed,
+  cargarFeedUsuario
 }) {
   const { eliminarPublicacion } = usePublicaciones();
   const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
@@ -45,10 +47,11 @@ export default function Publicacion({
     .then((resp) => {
       console.log('Publicacion eliminada correctamente', resp);
 
-      if (location === `/publicacion/${idPublicacion}`) {
+      if (location === `/publicacion/${idPublicacion}` || location === "/feed" ){
         setLocation('/feed');
+        cargarFeed()
       } else if (location === '/perfil') {
-        console.log('');
+        cargarFeedUsuario()
       }
     })
     .catch((err) => console.error(err));

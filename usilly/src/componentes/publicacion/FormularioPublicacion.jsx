@@ -5,7 +5,8 @@ function FormularioPublicacion({
   fotoPerfil, 
   cargarFeed, 
   idUsuario,
-  setPaginaActual
+  setPaginaActual,
+  cargarFeedUsuario
 
   }) {
 
@@ -13,10 +14,8 @@ function FormularioPublicacion({
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
-  //const idUsuario = 2;
 
   const { crearPublicacion } = usePublicaciones();
-  // const { obtenerFeed } = usePublicaciones()
 
   const token = localStorage.getItem('token');
 
@@ -37,38 +36,21 @@ function FormularioPublicacion({
     crearPublicacion(form)
     .then((resp) => {
       console.log("Publicación creada:", form);
-      cargarFeed();      
+      if (cargarFeed) {
+        cargarFeed()
+      } else {
+        cargarFeedUsuario()
+      }
       console.log('se reinició el feed');
+      setDescripcion(""),
+      setTitulo(""),
       setPublicacionActual(1);
 
-      setDescripcion(""),
-      setTitulo("")
     })
     .catch((error) => {
       console.error(error);
     });
   };
-
-  
-  // const publicar = async (e) => {
-  //   e.preventDefault();
-
-  //   await crearPublicacion({
-  //     titulo,
-  //     descripcion,
-  //     imagen,
-  //     idUsuario: 1
-  //   });
-  // }
-
-  // const publicar = (e) => {
-  //   e.preventDefault();
-
-  //   const publicacion = {
-  //     titulo, descripcion, imagen
-  //   }
-  //   console.log('Publicación enviada:', { titulo, descripcion });
-  // };
 
   const handleAgregarImagen = () => {
     console.log('Botón de Agregar Imagen clickeado');
@@ -83,7 +65,7 @@ function FormularioPublicacion({
       <form onSubmit={publicar}>
         <div className="flex items-start space-x-3 sm:space-x-4">
           <img
-            src={/*fotoPerfil ||*/ 'https://placehold.co/48x48/cccccc/333333?text=PF'}
+            src={fotoPerfil}
             alt="Foto de Perfil del Usuario"
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0 mt-1"
           />

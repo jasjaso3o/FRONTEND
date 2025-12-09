@@ -1,10 +1,18 @@
+import { useState } from 'react';
+import EditarPerfil from './EditarPerfil';
 
-
-function ApartadoPortadaPerfil({datosUsuario = {}}) {
+function ApartadoPortadaPerfil({datosUsuario = {}, 
+  idUsuarioLogueado,
+  openEditar,
+  setOpenEditar,
+  idUsuarioPropietario
+  
+}) {
   if (!datosUsuario) return null;
-
-
-  const { fotoPerfil, portada, apodo, nombreUsuario, biografiaPrincipal, totalMeGusta, totalPublicaciones, totalSeguidores, totalSeguidos } = datosUsuario;
+  
+  const { fotoPerfil, portada, apodo, nombreUsuario, biografiaPrincipal, biografiaSecundaria, totalMeGusta, totalPublicaciones, totalSeguidores, totalSeguidos } = datosUsuario;
+  
+  const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
 
   return (
       <div className="contenedorPortada w-full max-w-xl h-70 px-4 sm:px-0 p-4 rounded-b-lg shadow-xl relative mt-30"
@@ -19,12 +27,32 @@ function ApartadoPortadaPerfil({datosUsuario = {}}) {
               src={fotoPerfil}
               alt="Foto de Perfil"
               className="w-24 h-24 rounded-full object-cover border-4 border-white absolute -top-12 left-4 shadow-xl"
-            />
+              />
             
             <div className="flex justify-end pt-2">
-              <button className="px-4 py-1 border border-gray-300 text-gray-700 text-sm font-semibold rounded-full hover:bg-gray-100 transition duration-150">
-                Editar perfil
-              </button>
+              {
+                soyPropietario ? (
+                  <>
+                    <button 
+                      onClick={() => setOpenEditar(true)}
+                      className="px-4 py-1 border border-gray-300 text-gray-700 text-sm font-semibold rounded-full hover:bg-gray-100 transition duration-150"
+                    >
+                      Editar perfil
+                    </button>
+
+                    {openEditar && (
+                      <EditarPerfil
+                        setOpenEditar={setOpenEditar}
+                        datosUsuario={datosUsuario}
+                        idUsuarioLogueado={idUsuarioLogueado}
+                      />
+                    )}
+                  </>
+                ) : (
+                  {/*<button>Seguir</button>*/}
+                )
+              }
+
             </div>
 
             <div className="mt-2">
