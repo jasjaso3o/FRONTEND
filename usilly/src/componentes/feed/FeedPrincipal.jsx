@@ -13,11 +13,12 @@ function Feed_principal({
   paginaActual, 
   setPaginaActual,
   cargarFeed,
-  total
+  total,
+  authData
 }) {
 
   //const [publicaciones, setPublicaciones] = useState([])
-  const [offset, setOffset] = useState(0);
+  const [cargando, setCargando] = useState(true)
 
   //const { obtenerFeed } = usePublicaciones();
 
@@ -60,8 +61,6 @@ function Feed_principal({
 
   //cada vez que cambie page trae otras 20 publicaciones mas
 
-  console.log('idUsuarioLogueado en /feed', idUsuarioLogueado);
-
   // const detallePublicacion = () => {
   //   console.log('navegando a publicacion id:', idPublicacion, 'ruta actual:', location);
   //   if (!idPublicacion) {
@@ -70,10 +69,11 @@ function Feed_principal({
   //   }
   //   setLocation(`/publicacion/${idPublicacion}`);
   // };
-
-  console.log(publicaciones);
   
 
+  if (authData === null) {
+    return <div>Cargando...</div>
+  }
   return (
     <div className="Feed">
       <h1>Estas en el feed principal!!</h1>

@@ -18,7 +18,7 @@ function App() {
   const [, setLocation] = useLocation();
   const [authData, setAuthData] = useState(null);
   const [publicaciones, setPublicaciones] = useState([])
-  
+
   const [total, setTotal] = useState(0);
   const [paginaActual, setPaginaActual] = useState(1)
   
@@ -32,35 +32,6 @@ function App() {
   const ultimaPubIndex = paginaActual * pubsPorPagina;
   const primeraPubIndex = ultimaPubIndex - pubsPorPagina;
   
-  // const usuario = () => {
-  //   const token = localStorage.getItem('token');
-    
-  //   if (!token) return false;
-    
-  //   const payload = JSON.parse(atob(token.split('.')[1]));
-  //   console.log(payload);
-  //   return payload?.data;
-  // }
-
-  // const cargarFeed = () => {
-  //   obtenerFeed()
-  //     .then((resp) => {
-  //       //const aux = [...publicaciones];
-  //       // aux.push(...resp.data);
-  //       // setPublicaciones(aux);
-  //       setPublicaciones(resp.data)/*((prev) => [...prev, ...resp.data])*/
-  //       console.log(resp.data, 'se reinicio el feed'); 
-        
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
-  // obtenerFeed(paginaActual, pubsPorPagina)
-  // .then((resp) => {
-  //   setPublicaciones(resp.data.publicaciones);
-  //   setTotal(resp.data.total);
-  // })
-
   //LOGICA PARA EL INICIO DE SESIÓN/AUTENTICACIÓN
 
   const usuario = () => {
@@ -129,6 +100,80 @@ function App() {
     })
     .catch(console.error);
 }, []);
+//   const usuario = () => {
+//     const token = localStorage.getItem('token');
+
+//     if (!token) return false;
+
+//     const partes = token.split('.');
+
+//     if (partes.length !== 3) {
+//       console.error("TOKEN INVALIDO:", token);
+//       return false;
+//     }
+  
+//     try {
+//       const payload = JSON.parse(atob(partes[1]));
+//       console.log("PAYLOAD DECODIFICADO:", payload);
+//       return payload?.data;
+//     } catch (error) {
+//       console.error("ERROR DECODIFICANDO TOKEN:", error);
+//       return false;
+//     }
+//   };
+
+//   const logout = () => {
+//     localStorage.removeItem('token');
+//     setAuthData(null);
+//     setLocation('/login');
+//   };
+  
+//   useEffect(() => {
+//     const data = usuario();
+//     if(!data) {
+//       logout();
+//       return
+//     }
+//     setAuthData(data); //guarda idUsuario y rol
+//     setCargandoAuth(false)
+//     //esto esta mal???? deberia verificar si puedo cambiar el usuario en cualquier momento??
+//   }, []); //cada vez q cambie el token actualiza authData
+
+//   console.log("datos del usuario q inicio sesion: ", authData)
+
+
+//   // LOGICA PARA EL FEED Y PAGINADO DE PUBLICACIONES
+
+//   const cargarFeed = useCallback((pagina = 1) => {
+//     if (!authData) return;
+
+//     obtenerFeed(pubsPorPagina, pagina)
+//       .then((resp) => {
+//         setPublicaciones(resp.data);
+//         setPaginaActual(pagina);  
+//       })
+//       .catch(console.error);
+//   }, [obtenerFeed, pubsPorPagina, setPaginaActual])
+  
+//   useEffect(() => {
+//     if (!authData) return;
+
+//     cargarFeed(paginaActual);
+//     console.log('estas reiniciando el feed(?');
+//     window.scrollTo({
+//       top: 0,
+//       behavior: "smooth"
+//     })
+//   }, [authData, paginaActual]);
+
+
+//   useEffect(() => {
+//   obtenerTotal()
+//     .then((resp) => {
+//       setTotal(resp.data.total); 
+//     })
+//     .catch(console.error);
+// }, []);
 
 
   return(
@@ -167,6 +212,7 @@ function App() {
                     cargarFeed={cargarFeed}
                     total={total}
                     setTotal={setTotal}
+                    authData={authData}
                     />
               </Route>
 

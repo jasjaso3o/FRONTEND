@@ -22,9 +22,7 @@ export function useUsuarios() {
   };
 
   const logearUsuario = (datosInicioSesion) => {
-    return post("/login", datosInicioSesion, {
-
-    })
+    return post("/login", datosInicioSesion, false)
   }
 
   const editarPublicacion = (id, data) => {
