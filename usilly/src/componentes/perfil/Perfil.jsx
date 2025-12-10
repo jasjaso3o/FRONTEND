@@ -22,7 +22,8 @@ function Perfil({ idUsuarioLogueado, perfilId,
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
   const [cargando, setCargando] = useState(true)
   const [openEditar, setOpenEditar] = useState(false)
-
+  const [portadas, setPortadas] = useState([]);
+  const [modalPortadas, setModalPortadas] = useState(false);
 
   const { obtenerPublicacionesUsuario } = usePublicaciones();
   const { obtenerTotalUsuario } = usePublicaciones();
@@ -102,6 +103,8 @@ function Perfil({ idUsuarioLogueado, perfilId,
         openEditar={openEditar}
         setOpenEditar={setOpenEditar}
         idUsuarioPropietario={perfilIdMostrado}
+        modalPortadas={modalPortadas}
+        setModalPortadas={setModalPortadas}
       />
       
         <div className="biografia-secundaria mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">

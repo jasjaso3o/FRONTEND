@@ -1,14 +1,21 @@
 import { useUsuarios } from '../../hooks/useUsuarios'
+import { useImagenes } from '../../hooks/useImagenes';
 import { useState, useEffect } from "react";
+import ModalElegirImagen from './ModalElegirImagen';
+
 
 function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
 
   const { editarUsuario } = useUsuarios();
+  const { obtenerImagenesPortadas } = useImagenes();
 
-	const { fotoPerfil, portada, apodo, nombreUsuario, biografiaPrincipal, biografiaSecundaria, totalMeGusta, totalPublicaciones, totalSeguidores, totalSeguidos } = datosUsuario;
+  const [modalPortadas, setModalPortadas] = useState(false);
+  const [modalFotos, setModalFotos] = useState(false);
 
+  const [portadas, setPortadas] = useState([]);
+  const [fotosPerfil, setFotosPerfil] = useState([]);
 
-  // Estado del formulario
+  // FORM
   const [form, setForm] = useState({
     nombreUsuario: "",
     apodo: "",
@@ -19,22 +26,51 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
     privacidad: 0
   });
 
-  // Cargar los datos del usuario en el formulario al abrir el modal
+  // Cargar los datos del usuario al abrir
   useEffect(() => {
     if (datosUsuario) {
       setForm({
-        nombreUsuario: nombreUsuario || "",
-        apodo: apodo || "",
-        fotoPerfil: fotoPerfil || "",
-        portada: portada || "",
-        biografiaPrincipal: biografiaPrincipal || "",
-        biografiaSecundaria: biografiaSecundaria || "",
-        //privacidad: .privacidad || "publica"
+        nombreUsuario: datosUsuario.nombreUsuario || "",
+        apodo: datosUsuario.apodo || "",
+        fotoPerfil: datosUsuario.fotoPerfil || "",
+        portada: datosUsuario.portada || "",
+        biografiaPrincipal: datosUsuario.biografiaPrincipal || "",
+        biografiaSecundaria: datosUsuario.biografiaSecundaria || "",
       });
     }
   }, []);
 
-  // Handler para campos de texto
+  // Abrir modal portadas -> cargar imágenes del backend
+  const abrirModalPortadas = () => {
+  obtenerImagenesPortadas()
+  
+  .then((res) => {
+    const base = "http://localhost:3606";
+    const urlsCompletas = (res.data || []).map(img => base + img);
+
+    setPortadas(urlsCompletas); // aseguramos array
+    setModalPortadas(true);   // abrimos DESPUÉS de cargar
+    console.log("portadas",portadas);
+      
+    })
+    .catch((err) => {
+      console.error(err);
+      setPortadas([]);
+      setModalPortadas(true);
+    });
+};
+
+
+  // Abrir modal fotos perfil
+  // const abrirModalFotos = () => {
+  //   obtenerImagenes("/fotos/perfiles")
+  //     .then(({ fotosPerfil }) => setFotosPerfil(fotosPerfil))
+  //     .catch(() => setFotosPerfil([]));
+
+  //   setModalFotos(true);
+  // };
+
+  // Cambio de inputs
   const manejarCambio = (e) => {
     setForm({
       ...form,
@@ -42,73 +78,62 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
     });
   };
 
-  // Handler para checkbox
-  // const manejarPrivacidad = () => {
-  //   setForm({
-  //     ...form,
-  //     privacidad: form.privacidad === 1 ? 0 : 1
-  //   });
-  // };
-
   // Enviar formulario
   const guardarCambios = (e) => {
     e.preventDefault();
-		
-		
-    // Filtrar valores vacíos antes de enviar
+
+    // Filtrar valores vacíos
     const datosFiltrados = {};
     Object.entries(form).forEach(([key, value]) => {
-			if (value !== "" && value !== null && value !== undefined) {
-				datosFiltrados[key] = value;
+      if (value !== "" && value !== null && value !== undefined) {
+        datosFiltrados[key] = value;
       }
-			console.log('datos a editar del usuario : ', value);
     });
 
     editarUsuario(idUsuarioLogueado, datosFiltrados)
-      .then(() => {
-        setOpenEditar(false);
-      })
-      .catch((err) => {
-        console.error("Error al editar:", err);
-      });
+      .then(() => setOpenEditar(false))
+      .catch(err => console.error("Error al editar:", err));
   };
 
   return (
-    <div className="editar-perfil-container bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto my-8 p-6 sm:p-8 border border-gray-200">
+    <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto my-8 p-6 sm:p-8 border border-gray-200">
 
-      <h1 className="text-3xl font-extrabold text-gray-800 mb-8 border-b-2 border-dashed border-gray-300 pb-4">
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-8 border-b-2 border-dashed pb-4">
         Editar Perfil
       </h1>
 
       <form onSubmit={guardarCambios}>
 
-        {/* FOTO PORTADA */}
-        <div className="seccion-portada mb-6 flex items-center justify-between">
-          <span className="text-gray-700 font-semibold w-1/4">Portada</span>
+        {/* PORTADA */}
+        <div className="flex items-center justify-between mb-6">
+          <span className="font-semibold text-gray-700 w-1/4">Portada</span>
 
           <div className="flex items-center space-x-4">
-            <button className="bg-white border px-4 py-2 rounded-lg">
+            <button 
+              type="button"
+              onClick={abrirModalPortadas}
+              className="bg-white border px-4 py-2 rounded-lg"
+            >
               Elegir foto
             </button>
 
             <div className="w-24 h-16 rounded-lg overflow-hidden border">
-              <img
-                src={form.portada || "sin portada"}
-                alt="portada"
-                className="w-full h-full object-cover"
-              />
+              <img src={form.portada} className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
 
-        <div className="w-full h-px bg-gray-100 my-6"></div>
-
         {/* FOTO PERFIL */}
-        <div className="seccion-perfil-foto mb-8 flex items-center justify-between">
-          <span className="text-gray-700 font-semibold w-1/4">Foto de perfil</span>
+        <div className="flex items-center justify-between mb-8">
+          <span className="font-semibold text-gray-700 w-1/4">Foto de perfil</span>
 
           <div className="flex items-center space-x-4">
-            <button className="bg-white border px-4 py-2 rounded-lg">
+            
+            <button 
+              type="button"
+              //onClick={abrirModalFotos}
+              className="bg-white border px-4 py-2 rounded-lg"
+            >
               Elegir foto
             </button>
 
@@ -117,17 +142,13 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
             </button>
 
             <div className="w-16 h-16 rounded-full overflow-hidden border-2">
-              <img
-                src={form.fotoPerfil || "sin fotoPerfil"}
-                alt="foto perfil"
-                className="w-full h-full object-cover"
-              />
+              <img src={form.fotoPerfil} className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
 
-        {/* NOMBRE */}
-        <div className="input-grupo mb-4">
+        {/* CAMPOS DE TEXTO */}
+        <div className="mb-4">
           <label className="font-semibold">Nombre:</label>
           <input
             type="text"
@@ -138,8 +159,7 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
           />
         </div>
 
-        {/* NOMBRE USUARIO */}
-        <div className="input-grupo mb-4">
+        <div className="mb-4">
           <label className="font-semibold">Nombre de usuario:</label>
           <input
             type="text"
@@ -150,50 +170,29 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
           />
         </div>
 
-        {/* BIO PRINCIPAL */}
-        <div className="input-grupo mb-4">
+        <div className="mb-4">
           <label className="font-semibold">Descripción principal:</label>
           <textarea
             name="biografiaPrincipal"
+            rows="4"
             value={form.biografiaPrincipal}
             onChange={manejarCambio}
-            rows="4"
             className="w-full p-3 border rounded-lg"
           ></textarea>
         </div>
 
-        {/* BIO SECUNDARIA */}
-        <div className="input-grupo mb-8">
+        <div className="mb-8">
           <label className="font-semibold">Descripción secundaria:</label>
           <textarea
             name="biografiaSecundaria"
+            rows="5"
             value={form.biografiaSecundaria}
             onChange={manejarCambio}
-            rows="5"
             className="w-full p-3 border rounded-lg"
           ></textarea>
         </div>
 
-        {/* PRIVACIDAD */}
-        {/* <div className="input-grupo mb-8 flex items-center justify-between">
-          <label className="font-semibold">Perfil privado</label>
-
-          <input
-            type="checkbox"
-            checked={form.privacidad === 1}
-            onChange={manejarPrivacidad}
-          />
-        </div> */}
-
-        {/* BOTONES */}
-        <div className="flex justify-end pt-4 space-x-3">
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-6 py-3 rounded-lg"
-          >
-            Guardar cambios
-          </button>
-
+        <div className="flex justify-end space-x-3 pt-4">
           <button
             type="button"
             onClick={() => setOpenEditar(false)}
@@ -201,11 +200,34 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
           >
             X
           </button>
+
+          <button
+            type="submit"
+            className="bg-green-500 text-white px-6 py-3 rounded-lg"
+          >
+            Guardar cambios
+          </button>
         </div>
       </form>
+
+      <ModalElegirImagen
+        abierto={modalPortadas}
+        cerrar={() => setModalPortadas(false)}
+        titulo="Elegí una portada"
+        imagenes={portadas}
+        onSelect={(url) => setForm(prev => ({ ...prev, portada: url }))}
+      />
+
+      <ModalElegirImagen
+        abierto={modalFotos}
+        cerrar={() => setModalFotos(false)}
+        titulo="Elegí tu foto de perfil"
+        imagenes={fotosPerfil}
+        onSelect={(url) => setForm(prev => ({ ...prev, fotoPerfil: url }))}
+      />
+
     </div>
   );
 }
 
 export default EditarPerfil;
-

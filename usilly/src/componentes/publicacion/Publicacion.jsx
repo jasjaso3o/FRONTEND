@@ -64,10 +64,10 @@ export default function Publicacion({
           <img src={fotoPerfil} alt="Foto de Perfil" className="perfil-foto w-10 h-10 rounded-full mr-3 object-cover" />
           <div className="perfil-detalles flex flex-col">
             <div className="nombre-fecha-fila flex items-baseline">
-              <span className="nombre-usuario font-semibold text-gray-800 text-sm sm:text-base mr-2 whitespace-nowrap overflow-hidden text-ellipsis">{nombreUsuario}</span>
+              <span className="nombre-usuario font-semibold text-gray-800 text-sm sm:text-base mr-2 whitespace-nowrap overflow-hidden text-ellipsis">{apodo}</span>
               <div className="publicacion-fecha text-gray-400 text-xs ml-auto">{new Date(fechaCreacion).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}</div>
             </div>
-            <span className="apodo text-gray-500 text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">@{apodo}</span>
+            <span className="apodo text-gray-500 text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">@{nombreUsuario}</span>
           </div>
         </div>
       </div>

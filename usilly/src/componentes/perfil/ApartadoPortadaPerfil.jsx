@@ -1,80 +1,119 @@
 import { useState } from 'react';
 import EditarPerfil from './EditarPerfil';
+// Asegúrate de que este archivo exista y contenga el CSS proporcionado a continuación
+import './apartadoPortadaPerfil.css' 
 
-function ApartadoPortadaPerfil({datosUsuario = {}, 
-  idUsuarioLogueado,
-  openEditar,
-  setOpenEditar,
-  idUsuarioPropietario
-  
+function ApartadoPortadaPerfil({
+    datosUsuario = {}, 
+    idUsuarioLogueado,
+    openEditar,
+    setOpenEditar,
+    idUsuarioPropietario,
+    modalPortadas,
+    setModalPortadas
 }) {
-  if (!datosUsuario) return null;
-  
-  const { fotoPerfil, portada, apodo, nombreUsuario, biografiaPrincipal, biografiaSecundaria, totalMeGusta, totalPublicaciones, totalSeguidores, totalSeguidos } = datosUsuario;
-  
-  const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
+    if (!datosUsuario) return null;
+    
+    const { 
+        fotoPerfil, 
+        portada, 
+        apodo, 
+        nombreUsuario, 
+        biografiaPrincipal, 
+        totalMeGusta, 
+        totalPublicaciones, 
+        totalSeguidores, 
+        totalSeguidos 
+    } = datosUsuario;
+    
+    const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
 
-  return (
-      <div className="contenedorPortada w-full max-w-xl h-70 px-4 sm:px-0 p-4 rounded-b-lg shadow-xl relative mt-30"
-        style={{
-          backgroundImage: `url(${portada})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}>
-        
-          {/* <div className=" p-4 rounded-b-lg shadow-xl relative"> */}
-            <img
-              src={fotoPerfil}
-              alt="Foto de Perfil"
-              className="w-24 h-24 rounded-full object-cover border-4 border-white absolute -top-12 left-4 shadow-xl"
-              />
+    return (
+        <div 
+            className="contenedor-portada-perfil"
+            style={{
+                backgroundImage: `url(${portada})`,
+            }}
+        >
             
-            <div className="flex justify-end pt-2">
-              {
-                soyPropietario ? (
-                  <>
-                    <button 
-                      onClick={() => setOpenEditar(true)}
-                      className="px-4 py-1 border border-gray-300 text-gray-700 text-sm font-semibold rounded-full hover:bg-gray-100 transition duration-150"
-                    >
-                      Editar perfil
-                    </button>
+            {/* Contenedor principal para organizar Foto y Texto (Flex) */}
+            <div className="perfil-contenido-portada">
+                
+                {/* LADO IZQUIERDO: Foto de Perfil (Centrada verticalmente) */}
+                <div className="perfil-foto-area"> 
+                    <img
+                        src={fotoPerfil}
+                        alt="Foto de Perfil"
+                        className="perfil-foto-grande"
+                    />
+                </div>
+                
+                {/* LADO DERECHO: Texto, Estadísticas y Botón */}
+                <div className="perfil-info-area">
+                    
+                    {/* 1. INFO DE PERFIL (Apodo, Nombre de Usuario, Biografía) */}
+                    <div className="perfil-info-texto">
+                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
+                        <h1 className="apodo-portada text-stroke-white">
+                            {apodo}
+                        </h1>
+                        
+                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
+                        <p className="nombre-usuario-portada text-stroke-white">
+                            @{nombreUsuario}
+                        </p>
+                        
+                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
+                        <p className="biografia-portada text-stroke-white">
+                            {biografiaPrincipal}
+                        </p>
+                    </div>
 
-                    {openEditar && (
-                      <EditarPerfil
-                        setOpenEditar={setOpenEditar}
-                        datosUsuario={datosUsuario}
-                        idUsuarioLogueado={idUsuarioLogueado}
-                      />
-                    )}
-                  </>
-                ) : (
-                  {/*<button>Seguir</button>*/}
-                )
-              }
+                    {/* 2. ESTADÍSTICAS (Fila Horizontal) */}
+                    <div className="perfil-estadisticas">
+                        {/* Estilo Invertido: Marrón con trazo blanco */}
+                        <p className="estadistica-item text-stroke-white">
+                            <span className="estadistica-valor">{totalPublicaciones}</span> Publicaciones
+                        </p>
+                        <p className="estadistica-item text-stroke-white">
+                            <span className="estadistica-valor">{totalMeGusta}</span> Me gusta
+                        </p>
+                        <p className="estadistica-item text-stroke-white">
+                            <span className="estadistica-valor">{totalSeguidores}</span> Seguidores
+                        </p>
+                        <p className="estadistica-item text-stroke-white">
+                            <span className="estadistica-valor">{totalSeguidos}</span> Seguidos
+                        </p>
+                    </div>
 
+                    {/* 3. BOTÓN DE EDITAR PERFIL */}
+                    <div className="perfil-accion-btn-contenedor">
+                        {soyPropietario ? (
+                            <button 
+                                onClick={() => setOpenEditar(true)}
+                                className="btn-editar-perfil"
+                            >
+                                Editar perfil
+                            </button>
+                        ) : (
+                            <button className="btn-seguir">
+                                Seguir
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
-
-            <div className="mt-2">
-              <h1 className="text-2xl font-extrabold text-gray-900">{apodo}</h1>
-              <p className="text-gray-500 text-sm mb-2">@{nombreUsuario}</p>
-              <p className="text-gray-700 text-sm">{biografiaPrincipal}</p>
-
-            {/* </div> */}
-
             
-            </div>
-            <div>
-              <p>{totalPublicaciones} Publicaciones</p>
-              <p>{totalMeGusta} Me gusta</p>
-              <p>{totalSeguidores} Seguidores</p>
-              <p>{totalSeguidos} Seguidos</p>
-            </div>
-        {/* </div> */}
-
-
-      </div>
-  )
+            {/* Renderizado Condicional del Modal de Edición */}
+            {soyPropietario && openEditar && (
+                <EditarPerfil
+                    setOpenEditar={setOpenEditar}
+                    datosUsuario={datosUsuario}
+                    idUsuarioLogueado={idUsuarioLogueado}
+                />
+            )}
+        </div>
+    );
 }
 
 export default ApartadoPortadaPerfil;
