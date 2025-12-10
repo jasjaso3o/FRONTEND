@@ -14,6 +14,7 @@ function Perfil({ idUsuarioLogueado, perfilId,
   pubsPorPagina, 
   paginaActual, 
   setPaginaActual,
+  logout
   }) {
 
   const perfilIdMostrado = perfilId ?? idUsuarioLogueado;
@@ -105,6 +106,7 @@ function Perfil({ idUsuarioLogueado, perfilId,
         idUsuarioPropietario={perfilIdMostrado}
         modalPortadas={modalPortadas}
         setModalPortadas={setModalPortadas}
+        logout={logout}
       />
       
         <div className="biografia-secundaria mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">

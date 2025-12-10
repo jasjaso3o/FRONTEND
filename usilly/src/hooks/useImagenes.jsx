@@ -6,5 +6,10 @@ export function useImagenes() {
   const obtenerImagenesPortadas = () => {
     return get("/fotos/portada")
   }
-  return{obtenerImagenesPortadas}
+
+  const obtenerImagenesFotosPerfil = () => {
+    return get("/fotos/perfil")
   }
+
+  return{obtenerImagenesPortadas, obtenerImagenesFotosPerfil}
+}

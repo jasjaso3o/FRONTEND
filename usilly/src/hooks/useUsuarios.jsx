@@ -27,9 +27,9 @@ export function useUsuarios() {
     return post("/login", datosInicioSesion, false)
   }
 
-  // const eliminarPublicacion = (id) => {
-  //   return del(`/publicaciones/${id}`);
-  // };
+  const eliminarUsuario = (idUsuario) => {
+    return del(`/usuarios/${idUsuario}`);
+  };
 
   return {
     obtenerUsuarios,
@@ -38,6 +38,6 @@ export function useUsuarios() {
     registrarUsuario,
     logearUsuario,
     editarUsuario,
-    //eliminarPublicacion
+    eliminarUsuario
   };
 }

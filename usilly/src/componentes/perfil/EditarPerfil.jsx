@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import ModalElegirImagen from './ModalElegirImagen';
 
 
-function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
+function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado, logout }) {
 
   const { editarUsuario } = useUsuarios();
+  const { eliminarUsuario } = useUsuarios();
   const { obtenerImagenesPortadas } = useImagenes();
-
+  const { obtenerImagenesFotosPerfil } = useImagenes();
+  
   const [modalPortadas, setModalPortadas] = useState(false);
   const [modalFotos, setModalFotos] = useState(false);
 
@@ -50,7 +52,7 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
 
     setPortadas(urlsCompletas); // aseguramos array
     setModalPortadas(true);   // abrimos DESPUÉS de cargar
-    console.log("portadas",portadas);
+    console.log("portadas", portadas);
       
     })
     .catch((err) => {
@@ -58,19 +60,27 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
       setPortadas([]);
       setModalPortadas(true);
     });
-};
+  };
 
+  const abrirModalFotosPerfil = () => {
+  obtenerImagenesFotosPerfil()
+  
+  .then((res) => {
+    const base = "http://localhost:3606";
+    const urlsCompletas = (res.data || []).map(img => base + img);
 
-  // Abrir modal fotos perfil
-  // const abrirModalFotos = () => {
-  //   obtenerImagenes("/fotos/perfiles")
-  //     .then(({ fotosPerfil }) => setFotosPerfil(fotosPerfil))
-  //     .catch(() => setFotosPerfil([]));
+    setFotosPerfil(urlsCompletas); // aseguramos array
+    setModalFotos(true);   // abrimos DESPUÉS de cargar
+    console.log("fotos de perfil: ", fotosPerfil);
+      
+    })
+    .catch((err) => {
+      console.error(err);
+      setFotosPerfil([]);
+      setModalFotos(true);
+    });
+  }
 
-  //   setModalFotos(true);
-  // };
-
-  // Cambio de inputs
   const manejarCambio = (e) => {
     setForm({
       ...form,
@@ -78,11 +88,9 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
     });
   };
 
-  // Enviar formulario
   const guardarCambios = (e) => {
     e.preventDefault();
 
-    // Filtrar valores vacíos
     const datosFiltrados = {};
     Object.entries(form).forEach(([key, value]) => {
       if (value !== "" && value !== null && value !== undefined) {
@@ -95,6 +103,25 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
       .catch(err => console.error("Error al editar:", err));
   };
 
+  const handleEliminarPerfil = (e) => {
+    console.log('eliminar perfil boton presionado');
+    e.stopPropagation();
+    if (!idUsuarioLogueado) return;
+    let usuarioAcepta = confirm('Estas seguro de eliminar tu cuenta? se perderán todos tus datos si aceptas ˙◠˙')
+    if (usuarioAcepta) {
+      eliminarUsuario(idUsuarioLogueado)
+        .then((resp) => {
+          console.log('Usuario eliminado correctamente', resp);
+          logout()
+        })
+        .catch((err) => console.error(err));
+    }
+    if (!usuarioAcepta) { 
+      return
+    }
+  }
+
+
   return (
     <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto my-8 p-6 sm:p-8 border border-gray-200">
 
@@ -104,7 +131,6 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
 
       <form onSubmit={guardarCambios}>
 
-        {/* PORTADA */}
         <div className="flex items-center justify-between mb-6">
           <span className="font-semibold text-gray-700 w-1/4">Portada</span>
 
@@ -123,7 +149,6 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
           </div>
         </div>
 
-        {/* FOTO PERFIL */}
         <div className="flex items-center justify-between mb-8">
           <span className="font-semibold text-gray-700 w-1/4">Foto de perfil</span>
 
@@ -131,15 +156,15 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
             
             <button 
               type="button"
-              //onClick={abrirModalFotos}
+              onClick={abrirModalFotosPerfil}
               className="bg-white border px-4 py-2 rounded-lg"
             >
               Elegir foto
             </button>
 
-            <button className="bg-white border px-4 py-2 rounded-lg">
+            {/* <button className="bg-white border px-4 py-2 rounded-lg">
               Subir foto
-            </button>
+            </button> */}
 
             <div className="w-16 h-16 rounded-full overflow-hidden border-2">
               <img src={form.fotoPerfil} className="w-full h-full object-cover" />
@@ -147,7 +172,6 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
           </div>
         </div>
 
-        {/* CAMPOS DE TEXTO */}
         <div className="mb-4">
           <label className="font-semibold">Nombre:</label>
           <input
@@ -191,7 +215,12 @@ function EditarPerfil({ setOpenEditar, datosUsuario = {}, idUsuarioLogueado }) {
             className="w-full p-3 border rounded-lg"
           ></textarea>
         </div>
-
+        <button 
+          onClick={handleEliminarPerfil}
+          className="btn-editar-perfil"
+        >
+          Eliminar perfil
+        </button>
         <div className="flex justify-end space-x-3 pt-4">
           <button
             type="button"

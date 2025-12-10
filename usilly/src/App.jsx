@@ -230,7 +230,8 @@ function App() {
                   setTotal={setTotal}
                   pubsPorPagina={pubsPorPagina}
                   paginaActual={paginaActual}
-                  setPaginaActual={setPaginaActual}                  
+                  setPaginaActual={setPaginaActual} 
+                  logout={logout}                 
                 />
               </Route>
             </>

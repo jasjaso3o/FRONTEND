@@ -10,7 +10,8 @@ function ApartadoPortadaPerfil({
     setOpenEditar,
     idUsuarioPropietario,
     modalPortadas,
-    setModalPortadas
+    setModalPortadas,
+    logout
 }) {
     if (!datosUsuario) return null;
     
@@ -36,10 +37,8 @@ function ApartadoPortadaPerfil({
             }}
         >
             
-            {/* Contenedor principal para organizar Foto y Texto (Flex) */}
             <div className="perfil-contenido-portada">
                 
-                {/* LADO IZQUIERDO: Foto de Perfil (Centrada verticalmente) */}
                 <div className="perfil-foto-area"> 
                     <img
                         src={fotoPerfil}
@@ -48,30 +47,23 @@ function ApartadoPortadaPerfil({
                     />
                 </div>
                 
-                {/* LADO DERECHO: Texto, Estadísticas y Botón */}
                 <div className="perfil-info-area">
                     
-                    {/* 1. INFO DE PERFIL (Apodo, Nombre de Usuario, Biografía) */}
                     <div className="perfil-info-texto">
-                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
                         <h1 className="apodo-portada text-stroke-white">
                             {apodo}
                         </h1>
                         
-                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
                         <p className="nombre-usuario-portada text-stroke-white">
                             @{nombreUsuario}
                         </p>
                         
-                        {/* Aplicamos la clase de trazo: Blanco con trazo marrón */}
                         <p className="biografia-portada text-stroke-white">
                             {biografiaPrincipal}
                         </p>
                     </div>
 
-                    {/* 2. ESTADÍSTICAS (Fila Horizontal) */}
                     <div className="perfil-estadisticas">
-                        {/* Estilo Invertido: Marrón con trazo blanco */}
                         <p className="estadistica-item text-stroke-white">
                             <span className="estadistica-valor">{totalPublicaciones}</span> Publicaciones
                         </p>
@@ -86,15 +78,16 @@ function ApartadoPortadaPerfil({
                         </p>
                     </div>
 
-                    {/* 3. BOTÓN DE EDITAR PERFIL */}
                     <div className="perfil-accion-btn-contenedor">
                         {soyPropietario ? (
+                            <>
                             <button 
                                 onClick={() => setOpenEditar(true)}
                                 className="btn-editar-perfil"
                             >
                                 Editar perfil
                             </button>
+                            </>
                         ) : (
                             <button className="btn-seguir">
                                 Seguir
@@ -104,12 +97,12 @@ function ApartadoPortadaPerfil({
                 </div>
             </div>
             
-            {/* Renderizado Condicional del Modal de Edición */}
             {soyPropietario && openEditar && (
                 <EditarPerfil
                     setOpenEditar={setOpenEditar}
                     datosUsuario={datosUsuario}
                     idUsuarioLogueado={idUsuarioLogueado}
+                    logout={logout}
                 />
             )}
         </div>
