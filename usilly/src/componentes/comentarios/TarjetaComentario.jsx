@@ -1,3 +1,5 @@
+import { useComentarios } from "../../hooks/useComentarios";
+
 function Comentario({
   idComentario,
   fotoPerfil,
@@ -6,11 +8,25 @@ function Comentario({
   fechaCreacion,
   contenido,
   meGusta,
-  noMeGusta
+  noMeGusta,
+  idUsuarioPropietario, idUsuarioLogueado, obtenerComentariosPub
 }) {
   const handleLike = () => { console.log('Like en comentario clickeado'); };
   const handleDislike = () => { console.log('Dislike clickeado'); };
 
+  const soyPropietario = idUsuarioLogueado === idUsuarioPropietario;
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (!idComentario) return;
+
+    eliminarComentario(idComentario)
+      .then((resp) => {
+        console.log('Comentario eliminado correctamente', resp);
+        obtenerComentariosPub(idPublicacion)
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="comentario-item bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl">
@@ -39,7 +55,14 @@ function Comentario({
           </p>
 
           <div className="comentario-acciones flex items-center space-x-4">
-            
+            {soyPropietario && (
+              <button 
+                className="text-red-600 font-semibold hover:text-red-800" 
+                onClick={handleDelete}
+              >
+                  Eliminar
+              </button>
+            )}
             {/* <button
               className="accion-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150"
               onClick={handleLike}

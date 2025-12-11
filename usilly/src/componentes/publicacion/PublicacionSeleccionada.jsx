@@ -29,7 +29,6 @@ function PublicacionSeleccionada({idUsuarioLogueado, idUsuario}) {
         setPublicacion(resp.data[0]);
         console.log('datatatata',resp.data);
         console.log("primer elemento:", resp.data[0]);
-
         
       })
       .catch((err) => {
@@ -95,6 +94,10 @@ function PublicacionSeleccionada({idUsuarioLogueado, idUsuario}) {
             fechaCreacion={com.fechaCreacion}
             meGusta={com.meGusta}
             noMeGusta={com.noMeGusta}
+            idUsuarioPropietario={publicacion.idUsuario}
+            idUsuarioLogueado={idUsuarioLogueado}
+            obtenerComentariosPub={obtenerComentariosPub}
+            idPublicacion={publicacion.idPublicacion}
           />
         ))
         : <p>Sin comentarios aún, se el primero!</p>

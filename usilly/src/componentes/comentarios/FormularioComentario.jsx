@@ -33,26 +33,6 @@ function FormularioComentario({
   });
 };
 
-  
-  // const publicar = async (e) => {
-  //   e.preventDefault();
-
-  //   await crearPublicacion({
-  //     titulo,
-  //     contenido,
-  //     imagen,
-  //     idUsuario: 1
-  //   });
-  // }
-
-  // const publicar = (e) => {
-  //   e.preventDefault();
-
-  //   const publicacion = {
-  //     titulo, contenido, imagen
-  //   }
-  //   console.log('Publicación enviada:', { titulo, contenido });
-  // };
 
   const handleAgregarImagen = () => {
     console.log('Botón de Agregar Imagen clickeado');
@@ -75,7 +55,7 @@ function FormularioComentario({
           <div className="flex-grow min-w-0">
             <input
               type="text"
-              placeholder="¿Qué piensas el día de hoy?"
+              placeholder="Rompe el hielo!"
               value={contenido}
               onChange={(e) => setContenido(e.target.value)}
               className="w-full text-lg sm:text-xl font-semibold placeholder-gray-500 text-gray-800 focus:outline-none mb-1 p-0 border-none focus:ring-0"

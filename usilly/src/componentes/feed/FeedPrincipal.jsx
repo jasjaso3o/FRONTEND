@@ -21,7 +21,7 @@ function Feed_principal({
     return <div>Cargando...</div>
   }
   return (
-    <div className="Feed">
+    <div className="Feed flex flex-col items-center" >
       <h1>Estas en el feed principal!!</h1>
       <FormularioPublicacion
         cargarFeed={cargarFeed}

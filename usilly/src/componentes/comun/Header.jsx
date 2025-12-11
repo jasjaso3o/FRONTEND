@@ -19,7 +19,7 @@ export default function Header({logout, userRol, setPerfilSeleccionado, setPagin
       ) : (
         <>
           <Link to="/feed" className="Link"
-            onClick={() => setPaginaActual(1)}
+            onClick={() => setPaginaActual()}
           >Principal</Link>
           <Link to="/perfil" className="Link"
             onClick={() => {

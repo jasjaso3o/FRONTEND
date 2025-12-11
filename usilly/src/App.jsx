@@ -81,6 +81,7 @@ function App() {
       })
       .catch(console.error);
   }, [obtenerFeed, pubsPorPagina, setPaginaActual])
+
   
   useEffect(() => {
     cargarFeed(paginaActual);
@@ -99,6 +100,29 @@ function App() {
     })
     .catch(console.error);
 }, []);
+
+
+  // const cargarDatosUsuario = () => {
+  //     setCargando(true)
+  //     obtenerDatosUsuario(perfilIdMostrado)
+  //       .then((resp) => {
+  //         setDatosUsuario(resp.data)
+  //         console.log('Datos del usuario:', resp.data)
+  //       })
+  //       .catch((err) => {
+  //         console.error('Error cargando datos del usuario:', err)
+  //       })
+  //       .finally(() => setCargando(false))
+  //     }
+      
+  // useEffect(() => {
+  //     cargarDatosUsuario(openEditar)
+  //     cargarPublicacionesUsuario(paginaActual)
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: "smooth"
+  //     })
+  //   }, [perfilIdMostrado, paginaActual, openEditar])
 
   return(
     <>

@@ -107,7 +107,7 @@ export default function Publicacion({
       )}
 
       <div className="publicacion-acciones flex items-center justify-start border-t border-gray-100 pt-3 mt-3 space-x-6">
-        <button className="accion-btn like-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150 group" onClick={handleLike}>
+        {/* <button className="accion-btn like-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150 group" onClick={handleLike}>
           <svg className="w-5 h-5 mr-1 group-hover:fill-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
           </svg>
@@ -126,12 +126,13 @@ export default function Publicacion({
             className="contador text-sm font-medium">
             {noMeGusta}
           </span>
-        </button>
+        </button> */}
 
         <button className="accion-btn comentarios-btn flex items-center text-gray-500 hover:text-green-500 transition duration-150 group" 
           onClick={handleCommentView}>
           <svg className="w-5 h-5 mr-1 group-hover:fill-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.188C2.604 14.187 3 12 3 12s.803-2.14 2.894-3.14M21 12z"></path>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.188C2.604 14.187 3 12 3 12s.803-2.14 2.894-3.14M21 12z">
+            </path>
           </svg>
           <span className="contador text-sm font-medium">
             {comentarios}

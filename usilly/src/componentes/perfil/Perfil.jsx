@@ -18,12 +18,13 @@ function Perfil({ idUsuarioLogueado, perfilId,
   }) {
 
   const perfilIdMostrado = perfilId ?? idUsuarioLogueado;
+  const soyPropietario = idUsuarioLogueado === perfilIdMostrado;
+
 
   const [datosUsuario, setDatosUsuario] = useState()
   const [publicacionesUsuario, setPublicacionesUsuario] = useState([])
   const [cargando, setCargando] = useState(true)
   const [openEditar, setOpenEditar] = useState(false)
-  const [portadas, setPortadas] = useState([]);
   const [modalPortadas, setModalPortadas] = useState(false);
 
   const { obtenerPublicacionesUsuario } = usePublicaciones();
@@ -78,11 +79,6 @@ function Perfil({ idUsuarioLogueado, perfilId,
   }, []);
   
 
-// Componente: Filtro de Posts
-// const FiltroPosts = () => (
-//   <div className="flex justify-between items-center py-4 border-b border-gray-200 mb-4 mt-6">
-//   </div>
-// );
 
   const { biografiaSecundaria, fotoPerfil } = datosUsuario || {};
 
@@ -117,21 +113,20 @@ function Perfil({ idUsuarioLogueado, perfilId,
             {biografiaSecundaria || 'Nada por aquí aún.'}
           </p>
         </div>
-        
-        <FormularioPublicacion
-          reiniciarFeed={cargarPublicacionesUsuario}
-          //idUsuario={perfilIdMostrado}
-          fotoPerfil={fotoPerfil}
-          idUsuario={idUsuarioLogueado}
-          setPaginaActual={setPaginaActual}
-          cargarFeedUsuario={cargarPublicacionesUsuario}
-        />
-        
-        <Filtros/>
+        {soyPropietario && (
+          <FormularioPublicacion
+            reiniciarFeed={cargarPublicacionesUsuario}
+            fotoPerfil={fotoPerfil}
+            idUsuario={idUsuarioLogueado}
+            setPaginaActual={setPaginaActual}
+            cargarFeedUsuario={cargarPublicacionesUsuario}
+          />
+        )}
+        {/*Filtros/>*/}
         
         <div className="flex space-x-3 text-sm font-medium text-gray-600">
           <button className="text-indigo-600 border-b-2 border-indigo-600 pb-1">Posts</button>
-          //<button className="hover:text-indigo-600 pb-1">Multimedia</button>
+          {/*<button className="hover:text-indigo-600 pb-1">Multimedia</button>*/}
         </div>
         <div className="posts-lista">
           <ul>
