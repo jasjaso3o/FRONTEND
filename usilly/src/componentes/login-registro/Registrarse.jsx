@@ -24,7 +24,8 @@ function Registrarse() {
     const datosRegistro = { 
       nombreUsuario, apodo, email, password 
     };
-
+    console.log('datosr', datosRegistro);
+    
     registrarUsuario(datosRegistro)
     .then((resp) => {
       console.log('Registro exitoso:', resp.data);
@@ -54,28 +55,7 @@ function Registrarse() {
   }
     })
 
-//     post('/signup', datosRegistro)
-//       .then((resp) => {
-//         console.log('Registro exitoso:', resp.data);
-//         setNombreUsuario('');
-//         setApodo('');
-//         setEmail('');
-//         setPassword('');
-//         setLocation('/feed');
-//       })
-//       .catch((err) => {
-//         //const data = await response.json();
-//         console.error('Error en el registro:', err);
-
-//         // Intentar mapear errores del backend
-//         if (data.status === 'error') {
-//   console.log(data.mensaje); // "Nombre de usuario ya en uso, intenta con otro"
-//   // mostrar en UI
-// } else {
-//   console.log('Registro exitoso', data.token);
-// }
-//       });
-  }
+}
 
   return(
     <div className="registrarse-container">

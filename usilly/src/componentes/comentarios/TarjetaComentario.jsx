@@ -1,4 +1,5 @@
 function Comentario({
+  idComentario,
   fotoPerfil,
   nombreUsuario,
   apodo,
@@ -12,40 +13,40 @@ function Comentario({
 
 
   return (
-    <div className="comentario-item bg-white p-4 sm:p-6 rounded-xl shadow-lg py-3 px-4 sm:px-0 border-b border-gray-100 last:border-b-0 w-full max-w-xl mx-auto">
+    <div className="comentario-item bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-xl mx-auto my-4 transition-shadow hover:shadow-xl">
       <div className="flex items-start space-x-3 ">
         <img
-          src={fotoPerfil || 'https://placehold.co/40x40/f7d7e3/9e3a6a?text=P'}
+          src={fotoPerfil}
           alt="Foto de Perfil del Comentarista"
-          className="w-8 h-8 rounded-full object-cover flex-shrink-0 mt-1"
+          className="w-10 h-10 rounded-full object-cover flex-shrink-0 mt-1"
         />
 
         <div className="flex-grow">
           <div className="flex items-baseline space-x-2 text-sm mb-1">
-            <span className="font-semibold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">
-              {nombreUsuario || "TheHermit798"}
+            <span className="font-semibold text-gray-800 whitespace-nowrap overflow-hidden text-sm">
+              {apodo}
             </span>
             <span className="text-gray-500 text-xs whitespace-nowrap overflow-hidden text-ellipsis">
-              @{apodo || "TheHermit798"}
+              @{nombreUsuario}
             </span>
-            <span className="text-gray-400 text-xs ml-auto">
-              hace {fechaCreacion || "7 días"}
-            </span>
+            <div className="publicacion-fecha text-gray-400 text-xs ml-auto">
+                {new Date(fechaCreacion).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+              </div>
           </div>
 
           <p className="text-gray-700 text-sm leading-relaxed mb-2">
-            {contenido || "Ok fine i was kidding i know but i would like to say thank you for making these things that people will love. Im proud of who made this useful website im glad i know this website.from your biggest fan (つ•w•)つ. hellohello!!"}
+            {contenido}
           </p>
 
           <div className="comentario-acciones flex items-center space-x-4">
             
-            <button
+            {/* <button
               className="accion-btn flex items-center text-gray-500 hover:text-red-500 transition duration-150"
               onClick={handleLike}
             >
               <span className="icon">🤍</span>
               <span className="contador text-xs font-medium ml-1">
-                {meGusta || "28k"}
+                {meGusta}
               </span>
             </button>
 
@@ -54,9 +55,9 @@ function Comentario({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 21v-4a2 2 0 012-2h2a2 2 0 012 2v4M12 21V3M4 12h16"></path>
           </svg>
           <span className="contador text-sm font-medium">
-            {noMeGusta || "200"}
+            {noMeGusta}
           </span>
-        </button>
+        </button> */}
 
           </div>
         </div>

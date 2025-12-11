@@ -7,50 +7,51 @@ import { useComentarios } from "../../hooks/useComentarios";
 import FormularioComentario from "../comentarios/FormularioComentario";
 
 function PublicacionSeleccionada({idUsuarioLogueado, idUsuario}) {
-  const [match, params] = useRoute('/publicacion/:id');
-  const id = params?.id;  //corregir el nombre poco descriptivo
+  const [match, params] = useRoute('/publicacion/:idPublicacion');
+  const idPublicacion = params?.idPublicacion;  //corregir el nombre poco descriptivo
   const { obtenerPublicacion } = usePublicaciones();
   const [publicacion, setPublicacion] = useState(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
   const [comentarios, setComentarios] = useState([]);
+  const [comentarioNuevo, setComentarioNuevo] = useState(false);
+
 
   const { obtenerComentariosPub } = useComentarios();
-
+    
   useEffect(() => {
-    if (!id) return;
+    if (!idPublicacion) return;
+
     setCargando(true);
-    obtenerComentariosPub(id)
+    obtenerPublicacion(idPublicacion)
       .then((resp) => {
-        const comentarios = resp.data; 
-        setComentarios(comentarios);
-      })
-      .catch((err) => {
-        console.error('Error cargando los comentarios:', err);
-        setError(err);
-      })
-      .finally(() => setCargando(false));
-  }, [id]);
+        setPublicacion(resp.data[0]);
+        console.log('datatatata',resp.data);
+        console.log("primer elemento:", resp.data[0]);
 
-
-//corregir este useEffect :(
-
-  useEffect(() => {
-    if (!id) return;
-    setCargando(true);
-    obtenerPublicacion(id)
-      .then((resp) => {
-        const p = Array.isArray(resp.data) ? resp.data[0] : resp.data; //corregir el nombre poco descriptivo
-        setPublicacion(p);
+        
       })
       .catch((err) => {
         console.error('Error cargando la publicación:', err);
         setError(err);
       })
       .finally(() => setCargando(false));
-  }, [id]);
+  }, [idPublicacion]);
+  
+  useEffect(() => {
+    if (!publicacion) return;
 
+    obtenerComentariosPub(publicacion.idPublicacion)
+      .then((resp) => {
+        setComentarios(resp.data);
+      })
+      .catch((err) => {
+        console.error("Error cargando los comentarios:", err);
+      });
+
+  }, [publicacion, comentarioNuevo]); 
+  
 
   //que hace esto aca??? no tiene ningun sentido
   if (cargando) return <div className="max-w-3xl mx-auto p-4">Cargando publicación...</div>;
@@ -75,19 +76,25 @@ function PublicacionSeleccionada({idUsuarioLogueado, idUsuario}) {
         idUsuarioPropietario={publicacion.idUsuario}
         idUsuarioLogueado={idUsuarioLogueado}
       />
-      <FormularioComentario/>
+      <FormularioComentario
+        //fotoPerfil={}
+        idUsuario={idUsuarioLogueado}
+        idPublicacion={publicacion.idPublicacion}
+        onComentarioPublicado={() => setComentarioNuevo(prev => !prev)}
+      />
 
       <ul>
         {comentarios ? comentarios.map((com) => (
           <Comentario
-            key={comentarios.idComentario}
-            idComentario={comentarios.idComentario}
-            contenido={comentarios.contenido}
-            nombreUsuario={comentarios.nombreUsuario}
-            fotoPerfil={comentarios.fotoPerfil}
-            fechaCreacion={comentarios.fechaCreacion}
-            meGusta={comentarios.meGusta}
-            noMeGusta={comentarios.noMeGusta}
+            key={com.idComentario}
+            idComentario={com.idComentario}
+            contenido={com.contenido}
+            apodo={com.apodo}
+            nombreUsuario={com.nombreUsuario}
+            fotoPerfil={com.fotoPerfil}
+            fechaCreacion={com.fechaCreacion}
+            meGusta={com.meGusta}
+            noMeGusta={com.noMeGusta}
           />
         ))
         : <p>Sin comentarios aún, se el primero!</p>

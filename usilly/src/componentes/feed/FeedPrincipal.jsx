@@ -15,10 +15,7 @@ function Feed_principal({
   cargarFeed,
   total,
   authData
-}) {
-
-  const [cargando, setCargando] = useState(true)
-  
+}) {  
 
   if (authData === null) {
     return <div>Cargando...</div>

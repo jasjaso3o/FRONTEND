@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useComentarios } from '../../hooks/useComentarios';
 
-function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
+function FormularioComentario({ 
+  fotoPerfil, 
+  reiniciarFeed, 
+  idUsuario,
+  idPublicacion,
+  onComentarioPublicado
+  }) {
+    
   const [contenido, setContenido] = useState('');
-  //const [imagen, setImagen] = useState(null);
-  const idUsuario = 2;
-  const idPublicacion= 1
-
   const { crearComentario } = useComentarios();
 
   const publicar = (e) => {
@@ -14,8 +17,8 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
   
   const form = {
     contenido,
-    idUsuario,
-    idPublicacion
+    idPublicacion,
+    idUsuario
   };
   
   crearComentario(form)
@@ -23,6 +26,7 @@ function FormularioComentario({ fotoPerfil, reiniciarFeed }) {
     console.log("Comentario creado:", form);
     //reiniciarFeed();
     setContenido("")
+    onComentarioPublicado()
   })
   .catch((error) => {
     console.error(error);

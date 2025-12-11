@@ -20,7 +20,9 @@ export function useUsuarios() {
   };
 
   const registrarUsuario = (datosRegistro) => {
-    return post("/signup", datosRegistro);
+    console.log('hola',datosRegistro);
+    
+    return post("/signup", datosRegistro, false);
   };
 
   const logearUsuario = (datosInicioSesion) => {
