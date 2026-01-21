@@ -11,5 +11,9 @@ export function useImagenes() {
     return get("/fotos/perfil")
   }
 
-  return{obtenerImagenesPortadas, obtenerImagenesFotosPerfil}
+  const obtenerImagenesFondosPerfilPublicaciones = () => {
+    return get("/fotos/fondoPublicaciones")
+  }
+
+  return{obtenerImagenesPortadas, obtenerImagenesFotosPerfil, obtenerImagenesFondosPerfilPublicaciones}
 }

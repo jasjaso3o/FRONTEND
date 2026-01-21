@@ -80,11 +80,16 @@ function Perfil({ idUsuarioLogueado, perfilId,
   
 
 
-  const { biografiaSecundaria, fotoPerfil } = datosUsuario || {};
+  const { biografiaSecundaria, fotoPerfil, fondoPerfilPublicaciones } = datosUsuario || {};
 
   return (
-    <div className="perfil-completo min-h-screen flex flex-col items-center">
-      <div className="w-full bg-[#6A4A49] text-white p-3 flex items-center justify-start top-0 z-10 shadow-md">
+    <div className="perfilCompleto min-h-screen flex flex-col items-center"
+      style={{ 
+        backgroundImage: `url(${fondoPerfilPublicaciones || 'https://foollovers.com/mat/baf/heart/he200-026-a.gif'})`, 
+        backgroundRepeat: 'repeat',
+      }}
+    >
+      <div className="headerPerfil bg-[#6A4A49] text-white p-3 flex items-center justify-start top-0 z-10 shadow-md">
         <button onClick={() => window.history.back()} className="mr-3 p-1 rounded-full hover:bg-gray-600 transition">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>

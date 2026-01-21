@@ -1,0 +1,126 @@
+/* Contenedor Principal */
+.divLogearse-Registrarse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px; /* Espacio entre formulario y personaje */
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tarjeta del Formulario */
+.card-login-registrarse {
+  background-color: #fdf5e6; 
+  border: 3px solid #4E2928; 
+  border-radius: 12px;
+  width: 450px;
+  overflow: hidden;
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+}
+
+/* Barra superior marrón */
+.header-card {
+  background-color: #4E2928;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.content-card {
+  padding: 30px;
+}
+
+.content-card h3 {
+  color: #6A4A49;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.subtitle {
+  color: #8d6e63;
+  margin-bottom: 30px;
+}
+
+/* Alineación de Inputs tipo Columna/Grid como la imagen */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Etiqueta izquierda, input derecha */
+  align-items: center;
+  gap: 10px;
+}
+
+.input-group label {
+  color: #6A4A49;
+  text-align: right;
+  font-weight: bold;
+}
+
+.input-group input {
+  padding: 4px;
+  border: 2px solid #6A4A49;
+  border-radius: 6px;
+  background: white;
+  outline: none;
+}
+
+/* Botón con el delineado interno */
+.btn-retro {
+  margin-top: 20px;
+  background-color: #6A4A49;
+  color: white;
+  border: 2px solid #6A4A49;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  /* El efecto de la línea interna */
+  box-shadow: inset 0 0 0 2px #6A4A49, inset 0 0 0 4px #fdf5e6; 
+  transition: all 0.2s;
+}
+
+.btn-retro:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn-retro:disabled {
+  background-color: #a1887f;
+  cursor: not-allowed;
+}
+
+/* Personaje ASCII */
+.ascii-character {
+  color: #6A4A49;
+  font-family: monospace;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  white-space: pre;
+  margin: 0;
+}
+
+/* Footer y errores */
+.footer-text {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #6A4A49;
+}
+
+.footer-text a {
+  color: #7cd6d0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}

@@ -2,6 +2,12 @@ body {
   align-items: center;
 }
 
+.perfilCompleto {
+  width: 825px;
+  /* background-color: #FFFFFF; */
+  border: 1px solid #6A4A49;
+}
+
 .contenedorPerfil {
   display: flex;
   flex-direction: column;
@@ -9,9 +15,7 @@ body {
 }
 
 .headerPerfil {
-  height: 30px;
-  width: 80%;
-  background-color: brown;
+  width: 100%;
 }
 
 .contenedorDatosPerfil {
