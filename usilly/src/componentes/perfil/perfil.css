@@ -1,0 +1,27 @@
+body {
+  align-items: center;
+}
+
+.contenedorPerfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerPerfil {
+  height: 30px;
+  width: 80%;
+  background-color: brown;
+}
+
+.contenedorDatosPerfil {
+  background-color: violet;
+  align-items: center;
+  justify-self: center;
+  width: 70%;
+}
+
+.datosPerfil {
+  display: flex;
+  flex-direction: row;
+}
