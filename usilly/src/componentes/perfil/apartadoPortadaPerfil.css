@@ -1,26 +1,8 @@
-/* ---------------------------------------------------------------------- */
-/* 1. CLASES DE TRAZO DE TEXTO (Outline Effect) */
-/* ---------------------------------------------------------------------- */
-/* Definición del color marrón oscuro: #4E2928 */
-
 .text-stroke-white {
     color: #FFFFFF;
     -webkit-text-stroke: 1px #4E2928; 
     /*text-stroke: 1px #4E2928;*/ 
 } 
-
-/*.text-stroke-brown {*/
-    /* Color del texto: Marrón oscuro */
-    /*color: #4E2928;*/
-    /* Trazo: 2px sólido de color blanco */
-    /*-webkit-text-stroke: 1px #FFFFFF;
-    text-stroke: 2px #FFFFFF;
-    
-}
-
-/* ---------------------------------------------------------------------- */
-/* 2. CONTENEDOR PRINCIPAL DE LA PORTADA */
-/* ---------------------------------------------------------------------- */
 
 .contenedor-portada-perfil {
     width: 825px;
@@ -39,10 +21,6 @@
     background-position: center; 
 }
 
-/* ---------------------------------------------------------------------- */
-/* 3. ESTRUCTURA INTERNA (FLEXBOX) */
-/* ---------------------------------------------------------------------- */
-
 .perfil-contenido-portada {
     height: 100%;
     width: 100%;
@@ -50,43 +28,36 @@
     position: relative;
 }
 
-/* ÁREA DE LA FOTO (Lado Izquierdo) */
 .perfil-foto-area {
     display: flex;
-    align-items: center; /* Centrado vertical */
+    align-items: center; 
     justify-content: flex-start;
     flex-shrink: 0;
     height: 100%;
-    width: 25%; /* Ocupa el 25% del ancho */
+    width: 25%; 
     padding-right: 16px;
 }
 
 .perfil-foto-grande {
-    width: 192px; /* Tamaño solicitado (w-48) */
-    height: 192px; /* Tamaño solicitado (h-48) */
+    width: 192px;
+    height: 192px;
     border-radius: 50%;
     object-fit: cover;
     border: 6px solid #4E2928;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ÁREA DE INFORMACIÓN (Lado Derecho) */
 .perfil-info-area {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Agrupa contenido en la parte inferior */
+    justify-content: flex-end;
     padding-bottom: 16px;
     padding-left: 24px;
-    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-grow: 1;
     min-width: 0;
     z-index: 10;
 }
 
-/* ---------------------------------------------------------------------- */
-/* 4. ESTILOS DE TEXTO E INFO */
-/* ---------------------------------------------------------------------- */
-
-/* Textos de Perfil */
 .apodo-portada {
     font-size: 45px;
     font-weight: 800;
@@ -123,7 +94,6 @@ border: 1px solid #4E2928; */
 
 }
 
-/* Estadísticas */
 .perfil-estadisticas {
     display: flex;
     gap: 16px;
@@ -142,7 +112,6 @@ border: 1px solid #4E2928; */
     font-weight: 1000;
 }
 
-/* Botones de Acción */
 .perfil-accion-btn-contenedor {
     display: flex;
     justify-content: flex-start;

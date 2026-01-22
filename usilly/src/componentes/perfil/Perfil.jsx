@@ -111,10 +111,10 @@ function Perfil({ idUsuarioLogueado, perfilId,
       />
       
         <div className="biografia-secundaria mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">
-          <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-3 text-center">
+          <h3 className="tituloBioSecundaria">
             Sobre mí
           </h3>
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+          <p className="biografiaSecundariaTexto">
             {biografiaSecundaria || 'Nada por aquí aún.'}
           </p>
         </div>

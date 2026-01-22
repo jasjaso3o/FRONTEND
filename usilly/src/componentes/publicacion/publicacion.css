@@ -1,0 +1,154 @@
+/* Contenedor principal de la publicación */
+.publicacion-wrapper {
+    margin: 20px auto;
+    width: 550px; /* ANCHO FIJO PARA TODAS LAS PUBLICACIONES */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.publicacion-wrapper:hover {
+    transform: translateY(-2px);
+}
+
+/* --- Lógica de Bordes con Imágenes --- */
+
+/* Superior */
+.box-top {
+    background-image: url('/public/img/f-kado1.gif'), url('/public/img/f-kado2.gif'); /* Esquinas Sup Izq y Der */
+    background-position: top left, top right;
+    background-repeat: no-repeat, no-repeat;
+    height: 18px;
+}
+
+.u01 {
+    background: url('/public/img/f-ue.gif') repeat-x; /* Línea superior repetida */
+    height: 18px;
+    margin: 0 18px; /* Espacio para que no tape las esquinas */
+}
+
+/* Centro */
+.box-center {
+    background-image: url('/public/img/f-hidari.gif'), url('/public/img/f-migi.gif'); /* Bordes laterales */
+    background-position: top left, top right;
+    background-repeat: repeat-y, repeat-y;
+}
+
+.box-inner {
+    background: #fff;
+    margin: 0 18px; /* Margen interno para no chocar con bordes laterales */
+    padding: 10px 5px;
+}
+
+/* Inferior */
+.box-bottom {
+    background-image: url('/public/img/f-kado3.gif'), url('/public/img/f-kado4.gif'); /* Esquinas Inf Izq y Der */
+    background-position: top left, top right;
+    background-repeat: no-repeat, no-repeat;
+    height: 19px;
+}
+
+.s01 {
+    background: url('/public/img/f-sita.gif') repeat-x; /* Línea inferior repetida */
+    height: 19px;
+    margin: 0 18px;
+}
+
+/* --- Estilos de Contenido Interno --- */
+
+.pub-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.perfil-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.perfil-foto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nombre-apodo {
+    font-weight: bold;
+    color: #333;
+    margin-right: 8px;
+}
+
+.usuario-handle {
+    color: #888;
+    font-size: 0.85rem;
+    display: block;
+}
+
+.fecha {
+    font-size: 0.75rem;
+    color: #bbb;
+}
+
+/* Manejo de cuerpo con o sin imagen */
+.cuerpo-con-imagen {
+    display: flex;
+    gap: 15px;
+}
+
+.texto-content {
+    flex: 1;
+}
+
+.titulo-pub {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.descripcion-pub {
+    color: #444;
+    line-height: 1.4;
+}
+
+.imagen-wrapper img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* Footer acciones */
+.pub-footer {
+    border-top: 1px dashed #eee;
+    margin-top: 15px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-comentarios {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-eliminar {
+    color: #ff4d4d;
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
