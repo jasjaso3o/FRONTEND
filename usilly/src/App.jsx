@@ -18,14 +18,10 @@ function App() {
   const [, setLocation] = useLocation();
   const [authData, setAuthData] = useState(null);
   const [publicaciones, setPublicaciones] = useState([])
-
   const [total, setTotal] = useState(0);
   const [paginaActual, setPaginaActual] = useState(1)
   
   const [perfilSeleccionado, setPerfilSeleccionado] = useState(null);
-  
-  const { obtenerFeed } = usePublicaciones();
-  const { obtenerTotal } = usePublicaciones();
 
   const pubsPorPagina = 10;
 
@@ -69,38 +65,6 @@ function App() {
     localStorage.removeItem('token');
     setLocation('/login');
   };
-  
-
-  // LOGICA PARA EL FEED Y PAGINADO DE PUBLICACIONES
-
-  const cargarFeed = useCallback((pagina = 1) => {
-    obtenerFeed(pubsPorPagina, pagina)
-      .then((resp) => {
-        setPublicaciones(resp.data);
-        setPaginaActual(pagina);  
-      })
-      .catch(console.error);
-  }, [obtenerFeed, pubsPorPagina, setPaginaActual])
-
-  
-  useEffect(() => {
-    cargarFeed(paginaActual);
-    console.log('estas reiniciando el feed(?');
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
-  }, [paginaActual]);
-
-
-  useEffect(() => {
-  obtenerTotal()
-    .then((resp) => {
-      setTotal(resp.data.total); 
-    })
-    .catch(console.error);
-}, []);
-
 
   // const cargarDatosUsuario = () => {
   //     setCargando(true)
@@ -157,7 +121,6 @@ function App() {
                     pubsPorPagina={pubsPorPagina}
                     paginaActual={paginaActual}
                     setPaginaActual={setPaginaActual}
-                    cargarFeed={cargarFeed}
                     total={total}
                     setTotal={setTotal}
                     authData={authData}

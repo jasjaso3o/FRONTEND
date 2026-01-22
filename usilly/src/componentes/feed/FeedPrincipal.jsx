@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Publicacion from '../publicacion/Publicacion.jsx'
 import FormularioPublicacion from '../publicacion/FormularioPublicacion.jsx'
 import { usePublicaciones } from '../../hooks/usePublicaciones.jsx'
@@ -8,14 +8,50 @@ function Feed_principal({
   publicaciones,
   setPublicaciones,
   idUsuarioLogueado, 
-  onSelectProfile, 
-  pubsPorPagina, 
-  paginaActual, 
-  setPaginaActual,
-  cargarFeed,
+  onSelectProfile,
+  pubsPorPagina,
   total,
+  setTotal,
+  paginaActual,
+  setPaginaActual,
   authData
 }) {  
+
+  //const [total, setTotal] = useState(0);
+  //const [paginaActual, setPaginaActual] = useState(1)
+
+  const { obtenerFeed } = usePublicaciones();
+  const { obtenerTotal } = usePublicaciones();
+
+  // LOGICA PARA EL FEED Y PAGINADO DE PUBLICACIONES
+
+  const cargarFeed = useCallback((pagina = 1) => {
+    obtenerFeed(pubsPorPagina, pagina)
+      .then((resp) => {
+        setPublicaciones(resp.data);
+        setPaginaActual(pagina);  
+      })
+      .catch(console.error);
+    }, [obtenerFeed, pubsPorPagina, setPaginaActual])
+  
+    
+  useEffect(() => {
+    cargarFeed(paginaActual);
+    console.log('estas reiniciando el feed(?');
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }, [paginaActual]);
+  
+  
+  useEffect(() => {
+    obtenerTotal()
+    .then((resp) => {
+      setTotal(resp.data.total); 
+    })
+    .catch(console.error);
+  }, []);
 
   if (authData === null) {
     return <div>Cargando...</div>
